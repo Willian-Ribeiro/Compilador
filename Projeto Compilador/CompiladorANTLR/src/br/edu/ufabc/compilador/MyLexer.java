@@ -1,4 +1,5 @@
-package br.edu.ufabc.compilador;// $ANTLR 2.7.6 (2005-12-22): "gramatica.g" -> "MyLexer.java"$
+package br.edu.ufabc.compilador;
+// $ANTLR 2.7.6 (2005-12-22): "gramatica.g" -> "MyLexer.java"$
 
 import java.io.InputStream;
 import antlr.TokenStreamException;
@@ -24,7 +25,7 @@ import antlr.LexerSharedInputState;
 import antlr.collections.impl.BitSet;
 import antlr.SemanticException;
 
-public class MyLexer extends CharScanner implements MyParserTokenTypes, TokenStream
+public class MyLexer extends antlr.CharScanner implements MyParserTokenTypes, TokenStream
  {
 public MyLexer(InputStream in) {
 	this(new ByteBuffer(in));
@@ -41,8 +42,8 @@ public MyLexer(LexerSharedInputState state) {
 	setCaseSensitive(true);
 	literals = new Hashtable();
 	literals.put(new ANTLRHashString("programa", this), new Integer(4));
-	literals.put(new ANTLRHashString("escreva", this), new Integer(13));
-	literals.put(new ANTLRHashString("leia", this), new Integer(10));
+	literals.put(new ANTLRHashString("escreva", this), new Integer(21));
+	literals.put(new ANTLRHashString("leia", this), new Integer(20));
 	literals.put(new ANTLRHashString("declare", this), new Integer(5));
 	literals.put(new ANTLRHashString("fimprog", this), new Integer(9));
 }
@@ -113,7 +114,7 @@ tryAgain:
 					theRetToken=_returnToken;
 					break;
 				}
-				case '.':
+				case ';':
 				{
 					mT_pontof(true);
 					theRetToken=_returnToken;
@@ -146,6 +147,12 @@ tryAgain:
 				case '\t':  case '\n':  case '\r':  case ' ':
 				{
 					mT_blank(true);
+					theRetToken=_returnToken;
+					break;
+				}
+				case '|':
+				{
+					mT_comt(true);
 					theRetToken=_returnToken;
 					break;
 				}
@@ -212,7 +219,7 @@ tryAgain:
 		}
 		}
 		{
-		_loop25:
+		_loop29:
 		do {
 			switch ( LA(1)) {
 			case 'a':  case 'b':  case 'c':  case 'd':
@@ -246,7 +253,7 @@ tryAgain:
 			}
 			default:
 			{
-				break _loop25;
+				break _loop29;
 			}
 			}
 		} while (true);
@@ -264,18 +271,42 @@ tryAgain:
 		int _saveIndex;
 		
 		{
-		int _cnt28=0;
-		_loop28:
+		int _cnt32=0;
+		_loop32:
 		do {
 			if (((LA(1) >= '0' && LA(1) <= '9'))) {
 				matchRange('0','9');
 			}
 			else {
-				if ( _cnt28>=1 ) { break _loop28; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
+				if ( _cnt32>=1 ) { break _loop32; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
 			}
 			
-			_cnt28++;
+			_cnt32++;
 		} while (true);
+		}
+		{
+		if ((LA(1)=='.')) {
+			{
+			match('.');
+			}
+			{
+			int _cnt36=0;
+			_loop36:
+			do {
+				if (((LA(1) >= '0' && LA(1) <= '9'))) {
+					matchRange('0','9');
+				}
+				else {
+					if ( _cnt36>=1 ) { break _loop36; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
+				}
+				
+				_cnt36++;
+			} while (true);
+			}
+		}
+		else {
+		}
+		
 		}
 		if ( _createToken && _token==null && _ttype!=Token.SKIP ) {
 			_token = makeToken(_ttype);
@@ -354,7 +385,7 @@ tryAgain:
 		_ttype = T_pontof;
 		int _saveIndex;
 		
-		match('.');
+		match(';');
 		if ( _createToken && _token==null && _ttype!=Token.SKIP ) {
 			_token = makeToken(_ttype);
 			_token.setText(new String(text.getBuffer(), _begin, text.length()-_begin));
@@ -395,8 +426,8 @@ tryAgain:
 		
 		match('"');
 		{
-		int _cnt39=0;
-		_loop39:
+		int _cnt47=0;
+		_loop47:
 		do {
 			switch ( LA(1)) {
 			case 'a':  case 'b':  case 'c':  case 'd':
@@ -435,10 +466,10 @@ tryAgain:
 			}
 			default:
 			{
-				if ( _cnt39>=1 ) { break _loop39; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
+				if ( _cnt47>=1 ) { break _loop47; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
 			}
 			}
-			_cnt39++;
+			_cnt47++;
 		} while (true);
 		}
 		match('"');
@@ -496,6 +527,19 @@ tryAgain:
 		}
 		}
 		_ttype=Token.SKIP;
+		if ( _createToken && _token==null && _ttype!=Token.SKIP ) {
+			_token = makeToken(_ttype);
+			_token.setText(new String(text.getBuffer(), _begin, text.length()-_begin));
+		}
+		_returnToken = _token;
+	}
+	
+	public final void mT_comt(boolean _createToken) throws RecognitionException, CharStreamException, TokenStreamException {
+		int _ttype; Token _token=null; int _begin=text.length();
+		_ttype = T_comt;
+		int _saveIndex;
+		
+		match("||");
 		if ( _createToken && _token==null && _ttype!=Token.SKIP ) {
 			_token = makeToken(_ttype);
 			_token.setText(new String(text.getBuffer(), _begin, text.length()-_begin));

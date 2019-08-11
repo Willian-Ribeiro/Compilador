@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d31a1133-838d-49a6-bd3c-15c4b240535c" name="Default Changelist" comment="" />
+    <list default="true" id="d31a1133-838d-49a6-bd3c-15c4b240535c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/AbstractOperand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/BinaryOperand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/DataTypes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Expression.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/UnaryOperand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Variables.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyLexer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyParser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyParserTokenTypes.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyParserTokenTypes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prog.cu" beforeDir="false" afterPath="$PROJECT_DIR$/prog.cu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyParserTokenTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyParserTokenTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gramatica.g" beforeDir="false" afterPath="$PROJECT_DIR$/../gramatica.g" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,11 +31,18 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
   <component name="ProjectId" id="1OwajZ6zlVtQPdTI1DGOnC6pZEW" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/br/edu/ufabc/compilador" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
@@ -24,12 +50,12 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/br/edu/ufabc/compilador" />
       <recent name="$PROJECT_DIR$/src" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -48,7 +74,6 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="br.edu.ufabc.compilador.Main" />
       <module name="CompiladorANTLR" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method v="2">
@@ -73,5 +98,16 @@
       <updated>1564891248767</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
