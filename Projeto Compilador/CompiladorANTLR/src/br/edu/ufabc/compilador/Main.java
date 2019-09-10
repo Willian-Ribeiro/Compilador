@@ -1,38 +1,55 @@
+/*
+    Project: Compilador Universal
+
+    Description: compiler capable of generating program in more than one language
+                 currently supports: Java, Arduino
+
+    Authors: Willian Ribeiro,
+*/
+
 package br.edu.ufabc.compilador;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-
-        final String fileName = "prog.cu";
         InputStream inputstream = null;
 
+        System.out.println( "User directory " + System.getProperty("user.dir"));
+        System.out.println("Language selected " + AppProps.LANGUAGE);
+        System.out.println("File name " + AppProps.FILENAME);
+
         try{
-            System.out.println( "User directory" + System.getProperty("user.dir"));
-            inputstream = new FileInputStream(fileName);
-            System.out.println(inputstream.toString());
+            if(AppProps.FILENAME == "unnamedFile" || !AppProps.FILENAME.contains(".cu") )
+                throw new Exception("\nInsert your .cu file\n");
+
+            inputstream = new FileInputStream(AppProps.FILENAME);
+
             MyLexer lexer = new MyLexer(inputstream);
             MyParser parser = new MyParser(lexer);
 
-            if(inputstream == null) System.out.println("Input null");
+            parser.setProgram(AppProps.FILENAME.substring(0,AppProps.FILENAME.length() - 3));
 
-            System.out.println("Starting compiling process ...");
+            if(inputstream == null) System.out.println("Empty file");
+
+            System.out.println("\n\nStarting compiling process ...\n");
 
             parser.prog();
 
-            System.out.println("Compilation finished!");
+            System.out.println("\nGenerating Code...");
+            parser.getProgram().saveToFile();
+            System.out.println("\nProgram successfully compiled to " + AppProps.LANGUAGE);
+
+            // System note
+            System.out.println("\n\n Only CU is universal!!!\n");
         }
         catch(Exception ex)
         {
             System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
         finally {
             try {
@@ -41,5 +58,7 @@ public class Main {
                 e.printStackTrace();
             }
         }
+
     }
+
 }

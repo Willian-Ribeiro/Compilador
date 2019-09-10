@@ -22,5 +22,10 @@ public interface MyParserTokenTypes {
 	int T_attr = 19;
 	int LITERAL_leia = 20;
 	int LITERAL_escreva = 21;
-	int T_blank = 22;
+	int LITERAL_repita = 22;
+	int T_ac = 23;
+	int T_fc = 24;
+	int LITERAL_if = 25;
+	int LITERAL_else = 26;
+	int T_blank = 27;
 }

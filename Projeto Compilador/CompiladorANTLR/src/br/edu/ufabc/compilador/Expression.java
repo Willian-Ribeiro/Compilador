@@ -20,7 +20,7 @@ public class Expression{
    }
 
    public String toString(){
-       return "Expression: "+this.value;
+       return "Expression: " + this.value;
    }
 
     /**
