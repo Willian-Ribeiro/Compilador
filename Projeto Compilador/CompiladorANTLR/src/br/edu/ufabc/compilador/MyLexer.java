@@ -1,4 +1,8 @@
 package br.edu.ufabc.compilador;
+import br.edu.ufabc.compilador.definitions.*;
+import br.edu.ufabc.compilador.commands.*;
+import br.edu.ufabc.compilador.blocks.*;
+import br.edu.ufabc.compilador.operands.*;
 // $ANTLR 2.7.6 (2005-12-22): "gramatica.g" -> "MyLexer.java"$
 
 import java.io.InputStream;
@@ -41,12 +45,12 @@ public MyLexer(LexerSharedInputState state) {
 	caseSensitiveLiterals = true;
 	setCaseSensitive(true);
 	literals = new Hashtable();
-	literals.put(new ANTLRHashString("else", this), new Integer(26));
+	literals.put(new ANTLRHashString("entao", this), new Integer(24));
 	literals.put(new ANTLRHashString("programa", this), new Integer(4));
-	literals.put(new ANTLRHashString("if", this), new Integer(25));
-	literals.put(new ANTLRHashString("escreva", this), new Integer(21));
-	literals.put(new ANTLRHashString("leia", this), new Integer(20));
-	literals.put(new ANTLRHashString("repita", this), new Integer(22));
+	literals.put(new ANTLRHashString("se", this), new Integer(23));
+	literals.put(new ANTLRHashString("escreva", this), new Integer(22));
+	literals.put(new ANTLRHashString("leia", this), new Integer(21));
+	literals.put(new ANTLRHashString("repita", this), new Integer(25));
 	literals.put(new ANTLRHashString("declare", this), new Integer(5));
 	literals.put(new ANTLRHashString("fimprog", this), new Integer(9));
 }
@@ -159,6 +163,12 @@ tryAgain:
 					theRetToken=_returnToken;
 					break;
 				}
+				case '!':  case '<':  case '>':  case '?':
+				{
+					mT_comp(true);
+					theRetToken=_returnToken;
+					break;
+				}
 				default:
 					if ((LA(1)=='/') && (LA(2)=='/')) {
 						mT_comt(true);
@@ -230,7 +240,7 @@ tryAgain:
 		}
 		}
 		{
-		_loop41:
+		_loop45:
 		do {
 			switch ( LA(1)) {
 			case 'a':  case 'b':  case 'c':  case 'd':
@@ -264,7 +274,7 @@ tryAgain:
 			}
 			default:
 			{
-				break _loop41;
+				break _loop45;
 			}
 			}
 		} while (true);
@@ -282,17 +292,17 @@ tryAgain:
 		int _saveIndex;
 		
 		{
-		int _cnt44=0;
-		_loop44:
+		int _cnt48=0;
+		_loop48:
 		do {
 			if (((LA(1) >= '0' && LA(1) <= '9'))) {
 				matchRange('0','9');
 			}
 			else {
-				if ( _cnt44>=1 ) { break _loop44; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
+				if ( _cnt48>=1 ) { break _loop48; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
 			}
 			
-			_cnt44++;
+			_cnt48++;
 		} while (true);
 		}
 		{
@@ -301,17 +311,17 @@ tryAgain:
 			match('.');
 			}
 			{
-			int _cnt48=0;
-			_loop48:
+			int _cnt52=0;
+			_loop52:
 			do {
 				if (((LA(1) >= '0' && LA(1) <= '9'))) {
 					matchRange('0','9');
 				}
 				else {
-					if ( _cnt48>=1 ) { break _loop48; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
+					if ( _cnt52>=1 ) { break _loop52; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
 				}
 				
-				_cnt48++;
+				_cnt52++;
 			} while (true);
 			}
 		}
@@ -463,8 +473,8 @@ tryAgain:
 		
 		match('"');
 		{
-		int _cnt61=0;
-		_loop61:
+		int _cnt65=0;
+		_loop65:
 		do {
 			switch ( LA(1)) {
 			case ' ':
@@ -509,10 +519,10 @@ tryAgain:
 			}
 			default:
 			{
-				if ( _cnt61>=1 ) { break _loop61; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
+				if ( _cnt65>=1 ) { break _loop65; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
 			}
 			}
-			_cnt61++;
+			_cnt65++;
 		} while (true);
 		}
 		match('"');
@@ -528,7 +538,7 @@ tryAgain:
 		_ttype = T_attr;
 		int _saveIndex;
 		
-		match("=");
+		match('=');
 		if ( _createToken && _token==null && _ttype!=Token.SKIP ) {
 			_token = makeToken(_ttype);
 			_token.setText(new String(text.getBuffer(), _begin, text.length()-_begin));
@@ -584,6 +594,46 @@ tryAgain:
 		int _saveIndex;
 		
 		match("//");
+		if ( _createToken && _token==null && _ttype!=Token.SKIP ) {
+			_token = makeToken(_ttype);
+			_token.setText(new String(text.getBuffer(), _begin, text.length()-_begin));
+		}
+		_returnToken = _token;
+	}
+	
+	public final void mT_comp(boolean _createToken) throws RecognitionException, CharStreamException, TokenStreamException {
+		int _ttype; Token _token=null; int _begin=text.length();
+		_ttype = T_comp;
+		int _saveIndex;
+		
+		switch ( LA(1)) {
+		case '!':
+		{
+			match("!=");
+			break;
+		}
+		case '?':
+		{
+			match("?=");
+			break;
+		}
+		default:
+			if ((LA(1)=='<') && (LA(2)=='=')) {
+				match("<=");
+			}
+			else if ((LA(1)=='>') && (LA(2)=='=')) {
+				match(">=");
+			}
+			else if ((LA(1)=='<') && (true)) {
+				match('<');
+			}
+			else if ((LA(1)=='>') && (true)) {
+				match('>');
+			}
+		else {
+			throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());
+		}
+		}
 		if ( _createToken && _token==null && _ttype!=Token.SKIP ) {
 			_token = makeToken(_ttype);
 			_token.setText(new String(text.getBuffer(), _begin, text.length()-_begin));

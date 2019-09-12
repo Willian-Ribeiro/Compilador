@@ -1,4 +1,6 @@
-package br.edu.ufabc.compilador;
+package br.edu.ufabc.compilador.blocks;
+
+import br.edu.ufabc.compilador.operands.AbstractOperand;
 
 public class Expression{
    private float value;

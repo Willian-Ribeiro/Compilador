@@ -1,6 +1,6 @@
-package br.edu.ufabc.compilador;
+package br.edu.ufabc.compilador.commands;
 
-public class CmdAtribuicao extends Command {
+public class CmdIfElse extends Command {
     @Override
     public String toArduino() {
         return null;

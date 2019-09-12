@@ -1,4 +1,4 @@
-package br.edu.ufabc.compilador;
+package br.edu.ufabc.compilador.commands;
 
 public class CmdEscrita extends Command {
 

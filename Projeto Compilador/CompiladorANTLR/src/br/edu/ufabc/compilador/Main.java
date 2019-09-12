@@ -9,6 +9,8 @@
 
 package br.edu.ufabc.compilador;
 
+import br.edu.ufabc.compilador.definitions.AppProps;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +35,8 @@ public class Main {
 
             parser.setProgram(AppProps.FILENAME.substring(0,AppProps.FILENAME.length() - 3));
 
-            if(inputstream == null) System.out.println("Empty file");
+            if(inputstream == null)
+                System.out.println("Empty file");
 
             System.out.println("\n\nStarting compiling process ...\n");
 

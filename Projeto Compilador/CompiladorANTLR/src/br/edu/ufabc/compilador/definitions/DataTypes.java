@@ -1,4 +1,4 @@
-package br.edu.ufabc.compilador;
+package br.edu.ufabc.compilador.definitions;
 
 public enum DataTypes {
 

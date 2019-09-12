@@ -2,31 +2,37 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d31a1133-838d-49a6-bd3c-15c4b240535c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/javafx11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/AppProps.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/CmdAtribuicao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/CmdEscrita.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/CmdLeitura.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Command.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Identator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MainUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Program.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/commands/CmdIfElse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/commands/CmdLoop.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CompiladorANTLR.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CompiladorANTLR.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/AbstractOperand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/BinaryOperand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/DataTypes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/Expression.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyLexer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyParser.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyParserTokenTypes.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyParserTokenTypes.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/Variables.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/Variables.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prog.cu" beforeDir="false" afterPath="$PROJECT_DIR$/pEm.cu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Expression.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Expression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/UnaryOperand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/Variables.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pEm.cu" beforeDir="false" afterPath="$PROJECT_DIR$/pEm.cu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/AbstractOperand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/operands/AbstractOperand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/AppProps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/definitions/AppProps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/BinaryOperand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/operands/BinaryOperand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/CmdAtribuicao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/commands/CmdAtribuicao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/CmdEscrita.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/commands/CmdEscrita.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/CmdLeitura.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/commands/CmdLeitura.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/commands/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/DataTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/definitions/DataTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Expression.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/blocks/Expression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Identator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/extra/Identator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyLexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyParserTokenTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyParserTokenTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Variables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Variables.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/blocks/Program.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/UnaryOperand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/operands/UnaryOperand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/Variables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/definitions/Variables.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../gramatica.g" beforeDir="false" afterPath="$PROJECT_DIR$/../gramatica.g" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -39,8 +45,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Class" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -110,6 +116,14 @@
       <option name="presentableId" value="Default" />
       <updated>1564891248767</updated>
     </task>
+    <task id="LOCAL-00001" summary="Versao enviada Isidro">
+      <created>1568084763120</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1568084763120</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -124,5 +138,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Versao enviada Isidro" />
+    <option name="LAST_COMMIT_MESSAGE" value="Versao enviada Isidro" />
   </component>
 </project>

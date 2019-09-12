@@ -1,4 +1,9 @@
-package br.edu.ufabc.compilador;
+package br.edu.ufabc.compilador.blocks;
+
+import br.edu.ufabc.compilador.definitions.AppProps;
+import br.edu.ufabc.compilador.extra.Identator;
+import br.edu.ufabc.compilador.definitions.Variables;
+import br.edu.ufabc.compilador.commands.Command;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -8,11 +13,9 @@ import java.io.FileWriter;
 import java.io.File;
 
 public class Program {
-
-    public static final String INPUT="__SCAN_CU_MACRO__";
     private String name;
 
-    List<Variables>  variaveis;
+    List<Variables> variaveis;
     List<Command> comandos;
 
     public Program(String name){
@@ -32,6 +35,8 @@ public class Program {
         comandos.add(c);
     }
 
+    public Command popCommand() {return comandos.remove(comandos.size()-1);}
+
     public void saveToFile(){
         try{
 //            File file = new File(name+"."+AppProps.LANGUAGE.toLowerCase());
@@ -40,7 +45,7 @@ public class Program {
 
             f.write("public class "+name+"{\n");
             f.write("    public static void main(String args[]){\n");
-            f.write("      java.util.Scanner "+INPUT+" = new java.util.Scanner(System.in);\n");
+            f.write("      java.util.Scanner "+ AppProps.JAVA_SCANNER_INPUT +" = new java.util.Scanner(System.in);\n");
 
             for(Variables s: variaveis){
                 f.write(" int "+s.getName()+";\n");

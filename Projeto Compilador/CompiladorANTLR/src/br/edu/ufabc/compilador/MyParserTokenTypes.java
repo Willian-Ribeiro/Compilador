@@ -1,4 +1,8 @@
 package br.edu.ufabc.compilador;
+import br.edu.ufabc.compilador.definitions.*;
+import br.edu.ufabc.compilador.commands.*;
+import br.edu.ufabc.compilador.blocks.*;
+import br.edu.ufabc.compilador.operands.*;
 // $ANTLR 2.7.6 (2005-12-22): "gramatica.g" -> "MyParser.java"$
 
 public interface MyParserTokenTypes {
@@ -16,16 +20,17 @@ public interface MyParserTokenTypes {
 	int T_subt = 13;
 	int T_mult = 14;
 	int T_divi = 15;
-	int T_ap = 16;
-	int T_fp = 17;
-	int T_texto = 18;
-	int T_attr = 19;
-	int LITERAL_leia = 20;
-	int LITERAL_escreva = 21;
-	int LITERAL_repita = 22;
-	int T_ac = 23;
-	int T_fc = 24;
-	int LITERAL_if = 25;
-	int LITERAL_else = 26;
-	int T_blank = 27;
+	int T_comp = 16;
+	int T_ap = 17;
+	int T_fp = 18;
+	int T_texto = 19;
+	int T_attr = 20;
+	int LITERAL_leia = 21;
+	int LITERAL_escreva = 22;
+	int LITERAL_se = 23;
+	int LITERAL_entao = 24;
+	int LITERAL_repita = 25;
+	int T_ac = 26;
+	int T_fc = 27;
+	int T_blank = 28;
 }

@@ -1,5 +1,5 @@
 programa
-    declare a,b,c,d;
+    declare a,b,c,d,iterador;
     escreva("Este programa foi feito com o CU");
 
     escreva("Digite o valor de a");
@@ -18,10 +18,10 @@ programa
 
 
     // agora funcionoOoOoOuUuU;
-    repita( 3 ) { escreva("isto eh um loop"); };
+    repita( iterador=3; iterador<10; +1 ) { escreva("isto eh um loop"); };
 
-    if( 2 ) { escreva("isto eh um if"); };
+    se( 2 ) { escreva("isto eh um if"); };
 
-    if( 2 ) { escreva("isto eh um if"); } else { escreva("isto eh um else"); };
+    se( 2 ) { escreva("isto eh um if"); } entao { escreva("isto eh um else"); };
 
 fimprog

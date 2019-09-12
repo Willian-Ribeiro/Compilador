@@ -1,4 +1,6 @@
-package br.edu.ufabc.compilador;
+package br.edu.ufabc.compilador.extra;
+
+import br.edu.ufabc.compilador.definitions.AppProps;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

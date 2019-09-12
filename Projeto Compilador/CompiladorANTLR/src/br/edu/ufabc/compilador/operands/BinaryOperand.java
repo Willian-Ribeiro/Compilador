@@ -1,4 +1,4 @@
-package br.edu.ufabc.compilador;
+package br.edu.ufabc.compilador.operands;
 
 public class BinaryOperand  extends AbstractOperand{
     private char op;

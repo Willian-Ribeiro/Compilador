@@ -1,4 +1,7 @@
-package br.edu.ufabc.compilador;
+package br.edu.ufabc.compilador.commands;
+
+import br.edu.ufabc.compilador.blocks.Program;
+import br.edu.ufabc.compilador.definitions.AppProps;
 
 public class CmdLeitura extends Command {
 
@@ -15,6 +18,6 @@ public class CmdLeitura extends Command {
 
     @Override
     public String toJava() {
-        return idVar + "=" + Program.INPUT + ".nextInt();";
+        return idVar + "=" + AppProps.JAVA_SCANNER_INPUT + ".nextInt();";
     }
 }

@@ -1,4 +1,4 @@
-package br.edu.ufabc.compilador;
+package br.edu.ufabc.compilador.commands;
 
 public abstract class Command {
     public abstract String toArduino(); // TODO
