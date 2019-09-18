@@ -37,6 +37,8 @@ public class Program {
 
     public Command popCommand() {return comandos.remove(comandos.size()-1);}
 
+    public Command getLastCommand() {return comandos.get(comandos.size()-1);}
+
     public void saveToFile(){
         try{
 //            File file = new File(name+"."+AppProps.LANGUAGE.toLowerCase());
@@ -44,18 +46,18 @@ public class Program {
             FileWriter f = new FileWriter(file);
 
             f.write("public class "+name+"{\n");
-            f.write("    public static void main(String args[]){\n");
-            f.write("      java.util.Scanner "+ AppProps.JAVA_SCANNER_INPUT +" = new java.util.Scanner(System.in);\n");
+            f.write("\tpublic static void main(String args[]){\n");
+            f.write("\t\tjava.util.Scanner "+ AppProps.JAVA_SCANNER_INPUT +" = new java.util.Scanner(System.in);\n");
 
             for(Variables s: variaveis){
-                f.write(" int "+s.getName()+";\n");
+                f.write("\t\t" + s.getType() + " " + s.getName()+";\n\n");
             }
 
             for(Command c: comandos){
-                f.write(c.toJava()+"\n");
+                f.write("\t\t"+c.toJava()+"\n");
             }
 
-            f.write("}\n");
+            f.write("\t}\n");
             f.write("}\n");
             f.close();
 

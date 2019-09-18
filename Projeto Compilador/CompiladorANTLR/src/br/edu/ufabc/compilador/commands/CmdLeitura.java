@@ -18,6 +18,6 @@ public class CmdLeitura extends Command {
 
     @Override
     public String toJava() {
-        return idVar + "=" + AppProps.JAVA_SCANNER_INPUT + ".nextInt();";
+        return idVar + "=" + AppProps.JAVA_SCANNER_INPUT + ".next();";
     }
 }

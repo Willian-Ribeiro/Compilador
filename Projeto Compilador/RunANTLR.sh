@@ -11,14 +11,26 @@ rm MyParserTokenTypes.txt
 
 # Adicionar nome de pacote nos arquivos
 echo "package br.edu.ufabc.compilador;" > temp_file.java
+echo "import br.edu.ufabc.compilador.definitions.*;" >> temp_file.java
+echo "import br.edu.ufabc.compilador.commands.*;" >> temp_file.java
+echo "import br.edu.ufabc.compilador.blocks.*;" >> temp_file.java
+echo "import br.edu.ufabc.compilador.operands.*;" >> temp_file.java
 cat MyParser.java >> temp_file.java
 mv temp_file.java MyParser.java
 
 echo "package br.edu.ufabc.compilador;" > temp_file.java
+echo "import br.edu.ufabc.compilador.definitions.*;" >> temp_file.java
+echo "import br.edu.ufabc.compilador.commands.*;" >> temp_file.java
+echo "import br.edu.ufabc.compilador.blocks.*;" >> temp_file.java
+echo "import br.edu.ufabc.compilador.operands.*;" >> temp_file.java
 cat MyLexer.java >> temp_file.java
 mv temp_file.java MyLexer.java
 
 echo "package br.edu.ufabc.compilador;" > temp_file.java
+echo "import br.edu.ufabc.compilador.definitions.*;" >> temp_file.java
+echo "import br.edu.ufabc.compilador.commands.*;" >> temp_file.java
+echo "import br.edu.ufabc.compilador.blocks.*;" >> temp_file.java
+echo "import br.edu.ufabc.compilador.operands.*;" >> temp_file.java
 cat MyParserTokenTypes.java >> temp_file.java
 mv temp_file.java MyParserTokenTypes.java
 

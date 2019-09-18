@@ -2,10 +2,8 @@
 class MyParser extends Parser;
 {
 	java.util.HashMap<String, Variables> mapaVar;
-	java.util.HashMap<String, Variables> mapaTipo;
 
 	java.util.ArrayList<Expression> expList = new java.util.ArrayList<Expression>();
-	java.util.ArrayList<CmdLoop> loopList = new java.util.ArrayList<CmdLoop>();
 	Expression expression;
 	AbstractOperand num;
 	AbstractOperand parent;
@@ -13,8 +11,7 @@ class MyParser extends Parser;
 	BinaryOperand multOrDiv;
 	Variables variables;
 	char op;
-	CmdLoop loop;
-	String loopName;
+	ListManager listManager = new ListManager();
 	CmdAtribuicao cmdAtribuicao;
 
 	Program p;
@@ -24,8 +21,9 @@ class MyParser extends Parser;
     }
 
     public Variables checkMapaVar(String varName) {
-    	if( (loopName != null) && (mapaVar.get(loopName+varName) != null) )
-    		return mapaVar.get(loopName+varName);
+    	// check if var is in any loop
+    	if( !listManager.loopIsEmpty() && (listManager.loopGetVar(varName) != null) )
+    		return listManager.loopGetVar(varName);
     	else if( mapaVar.get(varName) != null )
     		return mapaVar.get(varName);
     	return null;
@@ -41,15 +39,17 @@ prog    :   {mapaVar = new java.util.HashMap<String, Variables>();}
 		;
 
 declara :   "declare" 
-			/*T_Id {
-					
-					mapaTipo.put( LT(0).getText(), new Variables(LT(0).getText()) );
-				 }*/
-			T_Id {mapaVar.put( LT(0).getText(), new Variables(LT(0).getText()) ); }
+			T_Id {
+					if( listManager.loopIsEmpty() )
+						mapaVar.put( LT(0).getText(), new Variables(LT(0).getText()) );
+					else
+						listManager.lastLoop().addLoopVariaveis( new Variables(LT(0).getText()) );
+				 }
 			(T_virg T_Id {mapaVar.put(LT(0).getText(), new Variables(LT(0).getText()) ); } )*
 			T_pontof
 			{
-		      p.setVariaveis(mapaVar.values());
+				if( listManager.loopIsEmpty() )
+					p.setVariaveis(mapaVar.values());
 			  System.out.println("Variable list assembled...");
 		    }
         ;
@@ -66,57 +66,64 @@ cmd     : 	cmdLeia 	T_pontof
 		;
 
 cmdIgnore : T_comt ( T_Id | T_num | T_soma | T_subt | T_mult | T_divi | T_comp
-		  | T_virg | T_ap | T_fp | T_texto | T_attr | "leia" | "escreva" | "se" | "entao" )* // seguido de qualquer coisa
+		  | T_virg | T_ap | T_fp | T_texto | T_attr | "leia" | "escreva" | "se"
+		  | "entao" | "repita" )* // seguido de qualquer coisa
 		  ;
 
 cmdLoop	:	"repita" T_ap
 						T_Id {
-								loop = new CmdLoop();
+								listManager.addLoop(new CmdLoop());
 								if( mapaVar.get(LT(0).getText()) == null )
 								{
-									loopName = loop.getLoop_name();
-									loop.setIterator(new Variables(loop.getLoop_name()+LT(0).getText()));
-									mapaVar.put( loop.getIterator().getName(), loop.getIterator() );
+									listManager.lastLoop().setIterator(new Variables(LT(0).getText()));
 								}
 								else
-									loop.setIterator( mapaVar.get(LT(0).getText()) );
+									listManager.lastLoop().setIterator( mapaVar.get(LT(0).getText()) );
 							 }
 						T_attr T_num {
-										loop.getIterator().setValue(LT(0).getText());
-										loop.getIterator().setType(DataTypes.TYPE_DOUBLE);
+										listManager.lastLoop().getIterator().setValue(LT(0).getText());
+										listManager.lastLoop().getIterator().setType(DataTypes.TYPE_DOUBLE);
 									 } T_pontof
 
-						(T_num {loop.setWhile_var1(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
+						(T_num {listManager.lastLoop().setWhile_var1(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
 						| T_Id {
 									if(checkMapaVar(LT(0).getText()) != null)
-										loop.setWhile_var1(checkMapaVar(LT(0).getText()));
+										listManager.lastLoop().setWhile_var1(checkMapaVar(LT(0).getText()));
 									else
 										throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
 							   })
 
-						T_comp {loop.setComparador(LT(0).getText());}
-						(T_num {loop.setWhile_var2(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
+						T_comp {listManager.lastLoop().setComparador(LT(0).getText());}
+						(T_num {listManager.lastLoop().setWhile_var2(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
 						| T_Id {
 									if(checkMapaVar(LT(0).getText()) != null)
-										loop.setWhile_var2( checkMapaVar(LT(0).getText()) );
+										listManager.lastLoop().setWhile_var2( checkMapaVar(LT(0).getText()) );
 									else
 										throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
 							   }) T_pontof
 
-						(T_subt | T_soma | T_mult | T_divi) {loop.setIncrementOp(LT(0).getText());}
-						(T_num {loop.setIncrement(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
+						(T_subt | T_soma | T_mult | T_divi) {listManager.lastLoop().setIncrementOp(LT(0).getText());}
+						(T_num {listManager.lastLoop().setIncrement(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
 						| T_Id {
 									if(checkMapaVar(LT(0).getText()) != null)
-										loop.setIncrement( checkMapaVar(LT(0).getText()) );
+										listManager.lastLoop().setIncrement( checkMapaVar(LT(0).getText()) );
 									else
 										throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
 							   })
 					T_fp 
-					T_ac ( ( cmdLeia | cmdEscr | cmdAttr | cmdIgnore ) T_pontof )+ {loop.addCommand(p.popCommand());} T_fc
+					T_ac 
+						{Command lastCommand = p.getLastCommand();}
+
+						( ( declara )* ( cmdLeia | cmdEscr | cmdAttr | cmdIgnore | cmdLoop ) T_pontof {
+																if(!lastCommand.equals(p.getLastCommand()))
+																	listManager.lastLoop().addCommand(p.popCommand());
+															}
+						)*
+					T_fc
 
 			{
-				p.addCommand(loop);
-				loopName = null;
+				p.addCommand(listManager.lastLoop());
+				listManager.popLoop();
 			}
 		;
 

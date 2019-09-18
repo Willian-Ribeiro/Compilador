@@ -17,13 +17,13 @@ public class CmdLoop extends Command {
     String incrementOp;
     Variables increment;
 
-//    public List<Variables> loop_variaveis;
+    List<Variables> loop_variaveis;
     List<Command> loop_comandos;
 
     public CmdLoop(){
         loop_name = AppProps.LOOPS_NAME_PREFIX + "_" + newId() + "__";
         loop_comandos = new ArrayList<Command>();
-//        loop_variaveis = new ArrayList<Variables>();
+        loop_variaveis = new ArrayList<Variables>();
     }
 
     @Override
@@ -55,6 +55,10 @@ public class CmdLoop extends Command {
             command_string += increment.getName();
 
         command_string += " ) {\n";
+
+        for( Variables var: loop_variaveis) {
+            command_string += "\t" + var.getType() + " " + var.getName() + ";\n";
+        }
 
         for( Command cmd: loop_comandos) {
             command_string += "\t" + cmd.toJava()+"\n";
@@ -125,5 +129,42 @@ public class CmdLoop extends Command {
 
     public String getLoop_name() {
         return loop_name;
+    }
+
+    public List<Variables> getLoop_variaveis() {
+        return loop_variaveis;
+    }
+
+    public void setLoop_variaveis(List<Variables> loop_variaveis) {
+        this.loop_variaveis = loop_variaveis;
+    }
+
+    public void addLoopVariaveis(Variables var)
+    {
+        this.loop_variaveis.add(var);
+    }
+
+    public Variables popLoopVariaveis()
+    {
+        return this.loop_variaveis.remove(loop_variaveis.size()-1);
+    }
+
+    public Variables removeLoopVariaveis(Variables var)
+    {
+        int index = this.loop_variaveis.indexOf(var);
+        if(index == -1) return null;
+        return loop_variaveis.remove(index);
+    }
+
+    public Variables loopGetVar(String varName)
+    {
+        if(varName.equals(iterator.getName()))
+            return iterator;
+        for (Variables var : loop_variaveis)
+        {
+            if(var.getName().equals(varName))
+                return var;
+        }
+        return null;
     }
 }

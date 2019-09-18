@@ -18,7 +18,7 @@ public class Variables {
     public Variables(String name)
     {
         this.name = name;
-        this.type = DataTypes.TYPE_INT;
+        this.type = DataTypes.TYPE_STRING;
         this.value = "";
     }
 
@@ -30,6 +30,7 @@ public class Variables {
 
     // TODO realizar o cast de acordo com o tipo da variavel
     public String getValue() {
+
         return value;
     }
 
@@ -37,8 +38,14 @@ public class Variables {
         this.value = value;
     }
 
-    public DataTypes getType() {
-        return type;
+    public String getType() {
+        String[] array = type.toString().split("_");
+        if(array[1] != null)
+            if(!array[1].equals("STRING"))
+                return array[1].toLowerCase();
+            else
+                return "String";
+        return "TYPE_NOT_SET";
     }
 
     public void setType(DataTypes type) {
