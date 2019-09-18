@@ -28,7 +28,7 @@ public interface MyParserTokenTypes {
 	int LITERAL_leia = 21;
 	int LITERAL_escreva = 22;
 	int LITERAL_se = 23;
-	int LITERAL_entao = 24;
+	int LITERAL_senao = 24;
 	int LITERAL_repita = 25;
 	int T_ac = 26;
 	int T_fc = 27;

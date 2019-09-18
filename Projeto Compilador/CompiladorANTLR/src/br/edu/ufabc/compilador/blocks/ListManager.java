@@ -1,5 +1,6 @@
 package br.edu.ufabc.compilador.blocks;
 
+import br.edu.ufabc.compilador.commands.CmdIfElse;
 import br.edu.ufabc.compilador.commands.CmdLoop;
 import br.edu.ufabc.compilador.commands.Command;
 import br.edu.ufabc.compilador.definitions.Variables;
@@ -9,12 +10,12 @@ import java.util.List;
 
 public class ListManager {
     ArrayList<CmdLoop> list_loop;
-    ArrayList<List> list_if;
+    ArrayList<CmdIfElse> list_if;
 
     public ListManager()
     {
         this.list_loop = new ArrayList<CmdLoop>();
-        this.list_if = new ArrayList<List>();
+        this.list_if = new ArrayList<CmdIfElse>();
     }
 
     public void addLoop(CmdLoop loop)
@@ -45,12 +46,16 @@ public class ListManager {
         return list_loop.isEmpty();
     }
 
-    public void addIf(List list_if)
+    public void addIf(CmdIfElse list_if)
     {
         this.list_if.add(list_if);
     }
     public void popIf()
     {
         list_if.remove(list_if.size()-1);
+    }
+    public CmdIfElse lastIfElse()
+    {
+        return list_if.get(list_if.size()-1);
     }
 }

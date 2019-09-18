@@ -67,7 +67,7 @@ cmd     : 	cmdLeia 	T_pontof
 
 cmdIgnore : T_comt ( T_Id | T_num | T_soma | T_subt | T_mult | T_divi | T_comp
 		  | T_virg | T_ap | T_fp | T_texto | T_attr | "leia" | "escreva" | "se"
-		  | "entao" | "repita" )* // seguido de qualquer coisa
+		  | "senao" | "repita" )* // seguido de qualquer coisa
 		  ;
 
 cmdLoop	:	"repita" T_ap
@@ -114,10 +114,11 @@ cmdLoop	:	"repita" T_ap
 					T_ac 
 						{Command lastCommand = p.getLastCommand();}
 
-						( ( declara )* ( cmdLeia | cmdEscr | cmdAttr | cmdIgnore | cmdLoop ) T_pontof {
-																if(!lastCommand.equals(p.getLastCommand()))
-																	listManager.lastLoop().addCommand(p.popCommand());
-															}
+						( ( declara )* ( cmdLeia | cmdEscr | cmdAttr | cmdIgnore | cmdLoop ) T_pontof
+							{
+									if(!lastCommand.equals(p.getLastCommand()))
+										listManager.lastLoop().addCommand(p.popCommand());
+							}
 						)*
 					T_fc
 
@@ -127,8 +128,50 @@ cmdLoop	:	"repita" T_ap
 			}
 		;
 
-cmdIfElse:  "se" T_ap T_num T_fp T_ac ( (cmdLeia | cmdEscr | cmdAttr | cmdIgnore) T_pontof )+ T_fc 
-			("entao" T_ac ( (cmdLeia | cmdEscr | cmdAttr | cmdIgnore) T_pontof )+ T_fc )?
+cmdIfElse:  "se" T_ap {listManager.addIf(new CmdIfElse());}
+					(T_num {listManager.lastIfElse().setCondicionail1(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
+					| T_Id {
+								if(checkMapaVar(LT(0).getText()) != null)
+									listManager.lastIfElse().setCondicionail1(checkMapaVar(LT(0).getText()));
+								else
+									throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
+						   })
+
+					T_comp {listManager.lastIfElse().setComparador(LT(0).getText());}
+
+					(T_num {listManager.lastIfElse().setCondicionail2(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
+					| T_Id {
+								if(checkMapaVar(LT(0).getText()) != null)
+									listManager.lastIfElse().setCondicionail2(checkMapaVar(LT(0).getText()));
+								else
+									throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
+						   })
+				T_fp 
+				T_ac
+					{Command lastCommandIf = p.getLastCommand();}
+
+					( ( cmdLeia | cmdEscr | cmdAttr | cmdIgnore ) T_pontof
+						{
+								if(!lastCommandIf.equals(p.getLastCommand()))
+									listManager.lastIfElse().addCommandIf(p.popCommand());
+						}
+					)+
+				T_fc 
+			("senao"
+				T_ac
+					{Command lastCommandElse = p.getLastCommand();}
+
+					( ( cmdLeia | cmdEscr | cmdAttr | cmdIgnore ) T_pontof
+						{
+								if(!lastCommandElse.equals(p.getLastCommand()))
+									listManager.lastIfElse().addCommandElse(p.popCommand());
+						}
+					)+
+				T_fc )?
+			{
+				p.addCommand(listManager.lastIfElse());
+				listManager.popIf();
+			}
 		;
 
 cmdLeia	:	"leia" {System.out.println("Bloco leia");} T_ap

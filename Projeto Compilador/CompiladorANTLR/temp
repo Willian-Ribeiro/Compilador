@@ -48,11 +48,21 @@ public class pEm{
 
 }
 
-		System.out.println("isto eh um if");
+		System.out.println("fim dos loops");
 
-		System.out.println("isto eh um if");
+		if( a<b ) {
+	System.out.println("isto eh um if");
 
-		System.out.println("isto eh um else");
+}
+
+		if( 2<3 ) {
+	System.out.println("isto eh um if");
+
+}
+else {
+	System.out.println("isto eh um else");
+
+}
 
 	}
 }

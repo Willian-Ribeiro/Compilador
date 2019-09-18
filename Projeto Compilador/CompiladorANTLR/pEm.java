@@ -34,8 +34,15 @@ public class pEm{
 				System.out.println("isto eh um loop aninhado");
 			}
 		}
-		System.out.println("isto eh um if");
-		System.out.println("isto eh um if");
-		System.out.println("isto eh um else");
+		System.out.println("fim dos loops");
+		if( a<b ) {
+			System.out.println("isto eh um if");
+		}
+		if( 2<3 ) {
+			System.out.println("isto eh um if");
+		}
+		else {
+			System.out.println("isto eh um else");
+		}
 	}
 }

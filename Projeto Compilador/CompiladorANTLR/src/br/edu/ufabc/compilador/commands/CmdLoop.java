@@ -8,9 +8,6 @@ import java.util.List;
 
 public class CmdLoop extends Command {
 
-    private static int Id = 0;
-    String loop_name;
-
     Variables iterator;
     Variables while_var1, while_var2;
     String comparador;
@@ -21,9 +18,8 @@ public class CmdLoop extends Command {
     List<Command> loop_comandos;
 
     public CmdLoop(){
-        loop_name = AppProps.LOOPS_NAME_PREFIX + "_" + newId() + "__";
-        loop_comandos = new ArrayList<Command>();
         loop_variaveis = new ArrayList<Variables>();
+        loop_comandos = new ArrayList<Command>();
     }
 
     @Override
@@ -67,12 +63,6 @@ public class CmdLoop extends Command {
         command_string += "}\n";
 
         return command_string;
-    }
-
-    public static int newId()
-    {
-        Id++;
-        return Id--;
     }
 
     public void addCommand(Command c){
@@ -125,18 +115,6 @@ public class CmdLoop extends Command {
 
     public void setIncrementOp(String incrementOp) {
         this.incrementOp = incrementOp;
-    }
-
-    public String getLoop_name() {
-        return loop_name;
-    }
-
-    public List<Variables> getLoop_variaveis() {
-        return loop_variaveis;
-    }
-
-    public void setLoop_variaveis(List<Variables> loop_variaveis) {
-        this.loop_variaveis = loop_variaveis;
     }
 
     public void addLoopVariaveis(Variables var)

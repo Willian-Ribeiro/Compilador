@@ -45,9 +45,9 @@ public MyLexer(LexerSharedInputState state) {
 	caseSensitiveLiterals = true;
 	setCaseSensitive(true);
 	literals = new Hashtable();
-	literals.put(new ANTLRHashString("entao", this), new Integer(24));
 	literals.put(new ANTLRHashString("programa", this), new Integer(4));
 	literals.put(new ANTLRHashString("se", this), new Integer(23));
+	literals.put(new ANTLRHashString("senao", this), new Integer(24));
 	literals.put(new ANTLRHashString("escreva", this), new Integer(22));
 	literals.put(new ANTLRHashString("leia", this), new Integer(21));
 	literals.put(new ANTLRHashString("repita", this), new Integer(25));
@@ -240,7 +240,7 @@ tryAgain:
 		}
 		}
 		{
-		_loop47:
+		_loop49:
 		do {
 			switch ( LA(1)) {
 			case 'a':  case 'b':  case 'c':  case 'd':
@@ -274,7 +274,7 @@ tryAgain:
 			}
 			default:
 			{
-				break _loop47;
+				break _loop49;
 			}
 			}
 		} while (true);
@@ -292,17 +292,17 @@ tryAgain:
 		int _saveIndex;
 		
 		{
-		int _cnt50=0;
-		_loop50:
+		int _cnt52=0;
+		_loop52:
 		do {
 			if (((LA(1) >= '0' && LA(1) <= '9'))) {
 				matchRange('0','9');
 			}
 			else {
-				if ( _cnt50>=1 ) { break _loop50; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
+				if ( _cnt52>=1 ) { break _loop52; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
 			}
 			
-			_cnt50++;
+			_cnt52++;
 		} while (true);
 		}
 		{
@@ -311,17 +311,17 @@ tryAgain:
 			match('.');
 			}
 			{
-			int _cnt54=0;
-			_loop54:
+			int _cnt56=0;
+			_loop56:
 			do {
 				if (((LA(1) >= '0' && LA(1) <= '9'))) {
 					matchRange('0','9');
 				}
 				else {
-					if ( _cnt54>=1 ) { break _loop54; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
+					if ( _cnt56>=1 ) { break _loop56; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
 				}
 				
-				_cnt54++;
+				_cnt56++;
 			} while (true);
 			}
 		}
@@ -473,8 +473,8 @@ tryAgain:
 		
 		match('"');
 		{
-		int _cnt67=0;
-		_loop67:
+		int _cnt69=0;
+		_loop69:
 		do {
 			switch ( LA(1)) {
 			case ' ':
@@ -519,10 +519,10 @@ tryAgain:
 			}
 			default:
 			{
-				if ( _cnt67>=1 ) { break _loop67; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
+				if ( _cnt69>=1 ) { break _loop69; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
 			}
 			}
-			_cnt67++;
+			_cnt69++;
 		} while (true);
 		}
 		match('"');

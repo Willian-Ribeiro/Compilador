@@ -36,8 +36,10 @@ programa
 
     };
 
-    se( 2 ) { escreva("isto eh um if"); };
+    escreva("fim dos loops");
 
-    se( 2 ) { escreva("isto eh um if"); } entao { escreva("isto eh um else"); };
+    se( a < b ) { escreva("isto eh um if"); };
+
+    se( 2 < 3 ) { escreva("isto eh um if"); } senao { escreva("isto eh um else"); };
 
 fimprog

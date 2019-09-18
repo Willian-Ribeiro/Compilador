@@ -381,9 +381,9 @@ public MyParser(ParserSharedInputState state) {
 					match(LITERAL_se);
 					break;
 				}
-				case LITERAL_entao:
+				case LITERAL_senao:
 				{
-					match(LITERAL_entao);
+					match(LITERAL_senao);
 					break;
 				}
 				case LITERAL_repita:
@@ -411,12 +411,65 @@ public MyParser(ParserSharedInputState state) {
 		try {      // for error handling
 			match(LITERAL_se);
 			match(T_ap);
-			match(T_num);
+			listManager.addIf(new CmdIfElse());
+			{
+			switch ( LA(1)) {
+			case T_num:
+			{
+				match(T_num);
+				listManager.lastIfElse().setCondicionail1(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );
+				break;
+			}
+			case T_Id:
+			{
+				match(T_Id);
+				
+												if(checkMapaVar(LT(0).getText()) != null)
+													listManager.lastIfElse().setCondicionail1(checkMapaVar(LT(0).getText()));
+												else
+													throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
+										
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
+			match(T_comp);
+			listManager.lastIfElse().setComparador(LT(0).getText());
+			{
+			switch ( LA(1)) {
+			case T_num:
+			{
+				match(T_num);
+				listManager.lastIfElse().setCondicionail2(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );
+				break;
+			}
+			case T_Id:
+			{
+				match(T_Id);
+				
+												if(checkMapaVar(LT(0).getText()) != null)
+													listManager.lastIfElse().setCondicionail2(checkMapaVar(LT(0).getText()));
+												else
+													throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
+										
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			match(T_fp);
 			match(T_ac);
+			Command lastCommandIf = p.getLastCommand();
 			{
-			int _cnt25=0;
-			_loop25:
+			int _cnt27=0;
+			_loop27:
 			do {
 				if ((_tokenSet_5.member(LA(1)))) {
 					{
@@ -448,24 +501,29 @@ public MyParser(ParserSharedInputState state) {
 					}
 					}
 					match(T_pontof);
+					
+													if(!lastCommandIf.equals(p.getLastCommand()))
+														listManager.lastIfElse().addCommandIf(p.popCommand());
+											
 				}
 				else {
-					if ( _cnt25>=1 ) { break _loop25; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt27>=1 ) { break _loop27; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt25++;
+				_cnt27++;
 			} while (true);
 			}
 			match(T_fc);
 			{
 			switch ( LA(1)) {
-			case LITERAL_entao:
+			case LITERAL_senao:
 			{
-				match(LITERAL_entao);
+				match(LITERAL_senao);
 				match(T_ac);
+				Command lastCommandElse = p.getLastCommand();
 				{
-				int _cnt29=0;
-				_loop29:
+				int _cnt31=0;
+				_loop31:
 				do {
 					if ((_tokenSet_5.member(LA(1)))) {
 						{
@@ -497,12 +555,16 @@ public MyParser(ParserSharedInputState state) {
 						}
 						}
 						match(T_pontof);
+						
+														if(!lastCommandElse.equals(p.getLastCommand()))
+															listManager.lastIfElse().addCommandElse(p.popCommand());
+												
 					}
 					else {
-						if ( _cnt29>=1 ) { break _loop29; } else {throw new NoViableAltException(LT(1), getFilename());}
+						if ( _cnt31>=1 ) { break _loop31; } else {throw new NoViableAltException(LT(1), getFilename());}
 					}
 					
-					_cnt29++;
+					_cnt31++;
 				} while (true);
 				}
 				match(T_fc);
@@ -518,6 +580,10 @@ public MyParser(ParserSharedInputState state) {
 			}
 			}
 			}
+			
+							p.addCommand(listManager.lastIfElse());
+							listManager.popIf();
+						
 		}
 		catch (RecognitionException ex) {
 			reportError(ex);
@@ -709,9 +775,9 @@ public MyParser(ParserSharedInputState state) {
 					}
 					match(T_pontof);
 					
-																					if(!lastCommand.equals(p.getLastCommand()))
-																						listManager.lastLoop().addCommand(p.popCommand());
-																				
+														if(!lastCommand.equals(p.getLastCommand()))
+															listManager.lastLoop().addCommand(p.popCommand());
+												
 				}
 				else {
 					break _loop21;
@@ -758,7 +824,7 @@ public MyParser(ParserSharedInputState state) {
 		try {      // for error handling
 			termo();
 			{
-			_loop38:
+			_loop40:
 			do {
 				if ((LA(1)==T_soma||LA(1)==T_subt)) {
 					{
@@ -806,7 +872,7 @@ public MyParser(ParserSharedInputState state) {
 					
 				}
 				else {
-					break _loop38;
+					break _loop40;
 				}
 				
 			} while (true);
@@ -825,7 +891,7 @@ public MyParser(ParserSharedInputState state) {
 			System.out.println("termo");
 			fator();
 			{
-			_loop42:
+			_loop44:
 			do {
 				if ((LA(1)==T_mult||LA(1)==T_divi)) {
 					{
@@ -849,7 +915,7 @@ public MyParser(ParserSharedInputState state) {
 					fator();
 				}
 				else {
-					break _loop42;
+					break _loop44;
 				}
 				
 			} while (true);
@@ -939,7 +1005,7 @@ public MyParser(ParserSharedInputState state) {
 		"\"leia\"",
 		"\"escreva\"",
 		"\"se\"",
-		"\"entao\"",
+		"\"senao\"",
 		"\"repita\"",
 		"T_ac",
 		"T_fc",
