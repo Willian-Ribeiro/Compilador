@@ -4,12 +4,14 @@ ANTLR
 JAVAFX -> temos duas mains no projeto, eh necessario JavaFX para rodar a Main com UI
 
 
-A analise lexica/sintatica esta funcionando para loop/ ifElse / leia / escreva / comentario/ atribuicao
+A analise lexica/sintatica esta funcionando para loop aninhado/ while / ifElse / leia / escreva / comentario/ atribuicao
 
 TODO
-- Tratar Comando de atribuicao
+- Tratar Comando de atribuicao, aceitar numeros decimais
 - Fazer comando getType das Variables atribuir o tipo automaticamente, e getValue dar cast automatico 	na variavel
-- Tratar ifElse
+- Adicionar 2 tipos de variaveis
+- Verificar se varivel foi atribuida ou nao
+- Verificar se varivel declarada foi atribuida
 
 
 

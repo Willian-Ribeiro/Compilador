@@ -1,20 +1,46 @@
 package br.edu.ufabc.compilador.operands;
 
+import br.edu.ufabc.compilador.definitions.DataTypes;
+import br.edu.ufabc.compilador.definitions.Variables;
+
 public class UnaryOperand extends AbstractOperand{
-    private float fValue;
-    
-    public UnaryOperand(float value){
-        this.fValue = value;
+    private Variables var;
+    private String operand;
+
+    public UnaryOperand(){
+        this.operand = "+";
     }
 
     @Override
-    public float getValue() {
-        return this.fValue;
+    public String toJava()
+    {
+        return (var.getName().equals(Variables.NUMBER))? var.getValue() : var.getName();
     }
 
     @Override
-    public String toXml() {
-       return "<number> "+this.fValue+ "</number>";
+    public String toArduino()
+    {
+        return null;
     }
-    
+
+    @Override
+    public DataTypes getDataType()
+    {
+        return var.getDataType();
+    }
+
+    public Variables getVar() {
+        return var;
+    }
+
+    // already make var account sign
+    public void setVar(Variables var) {
+        if(operand.equals("-"))
+            var.setValue("-" + var.getValue());
+        this.var = var;
+    }
+
+    public void setOperand(String operand) {
+        this.operand = operand;
+    }
 }

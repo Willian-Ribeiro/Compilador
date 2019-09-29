@@ -1,6 +1,5 @@
 package br.edu.ufabc.compilador.commands;
 
-import br.edu.ufabc.compilador.definitions.AppProps;
 import br.edu.ufabc.compilador.definitions.Variables;
 
 import java.util.ArrayList;
@@ -53,14 +52,14 @@ public class CmdLoop extends Command {
         command_string += " ) {\n";
 
         for( Variables var: loop_variaveis) {
-            command_string += "\t" + var.getType() + " " + var.getName() + ";\n";
+            command_string += "\t\t\t" + var.getType() + " " + var.getName() + ";\n";
         }
 
         for( Command cmd: loop_comandos) {
-            command_string += "\t" + cmd.toJava()+"\n";
+            command_string += "\t\t\t" + cmd.toJava()+"\n";
         }
 
-        command_string += "}\n";
+        command_string += "\t\t}\n";
 
         return command_string;
     }
@@ -77,40 +76,20 @@ public class CmdLoop extends Command {
         this.iterator = var;
     }
 
-    public Variables getWhile_var1() {
-        return while_var1;
-    }
-
     public void setWhile_var1(Variables while_var1) {
         this.while_var1 = while_var1;
-    }
-
-    public Variables getWhile_var2() {
-        return while_var2;
     }
 
     public void setWhile_var2(Variables while_var2) {
         this.while_var2 = while_var2;
     }
 
-    public Variables getIncrement() {
-        return increment;
-    }
-
     public void setIncrement(Variables increment) {
         this.increment = increment;
     }
 
-    public String getComparador() {
-        return comparador;
-    }
-
     public void setComparador(String comparador) {
         this.comparador = comparador;
-    }
-
-    public String getIncrementOp() {
-        return incrementOp;
     }
 
     public void setIncrementOp(String incrementOp) {
@@ -120,18 +99,6 @@ public class CmdLoop extends Command {
     public void addLoopVariaveis(Variables var)
     {
         this.loop_variaveis.add(var);
-    }
-
-    public Variables popLoopVariaveis()
-    {
-        return this.loop_variaveis.remove(loop_variaveis.size()-1);
-    }
-
-    public Variables removeLoopVariaveis(Variables var)
-    {
-        int index = this.loop_variaveis.indexOf(var);
-        if(index == -1) return null;
-        return loop_variaveis.remove(index);
     }
 
     public Variables loopGetVar(String varName)
@@ -144,5 +111,19 @@ public class CmdLoop extends Command {
                 return var;
         }
         return null;
+    }
+
+    public boolean checkVarsAttributedUsed()
+    {
+        for (Variables var : loop_variaveis)
+        {
+            System.out.println("Var name: "+var.getName()+" used: "+var.getUsed()+" attributed: "+var.getAttributed()+"\n");
+            if(!var.getAttributed())
+                throw new RuntimeException("ERROR Variable " + var.getName() + " not attributed");
+            if(!var.getUsed())
+                throw new RuntimeException("WARNING? Variable " + var.getName() + " not being used");
+        }
+
+        return true;
     }
 }

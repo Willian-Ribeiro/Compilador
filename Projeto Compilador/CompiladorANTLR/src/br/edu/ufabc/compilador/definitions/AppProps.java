@@ -12,4 +12,20 @@ public class AppProps {
     // hard coded props
     public static final String JAVA_SCANNER_INPUT = "__SCAN_CU_MACRO__";
     public static final String LOOPS_NAME_PREFIX = "__LOOPS_CU_MACRO__";
+
+    public static String getOutputFileExtension()
+    {
+        String extension = null;
+
+        switch (LANGUAGE)
+        {
+            case "JAVA":
+                extension = "java";
+                break;
+            case "Arduino":
+                extension = "ino";
+                break;
+        }
+        return extension;
+    }
 }

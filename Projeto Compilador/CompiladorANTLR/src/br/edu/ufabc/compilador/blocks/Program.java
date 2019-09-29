@@ -17,11 +17,13 @@ public class Program {
 
     List<Variables> variaveis;
     List<Command> comandos;
+    ScopeManager scopeManager;
 
     public Program(String name){
         this.name = name;
         comandos = new ArrayList<Command>();
         variaveis = new ArrayList<Variables>();
+        scopeManager = ScopeManager.getInstance();
     }
 
     public void setVariaveis(Collection lista){
@@ -42,7 +44,7 @@ public class Program {
     public void saveToFile(){
         try{
 //            File file = new File(name+"."+AppProps.LANGUAGE.toLowerCase());
-            File file = new File("temp");
+            File file = new File("ProgramaEm." + AppProps.getOutputFileExtension());
             FileWriter f = new FileWriter(file);
 
             f.write("public class "+name+"{\n");
@@ -50,8 +52,10 @@ public class Program {
             f.write("\t\tjava.util.Scanner "+ AppProps.JAVA_SCANNER_INPUT +" = new java.util.Scanner(System.in);\n");
 
             for(Variables s: variaveis){
-                f.write("\t\t" + s.getType() + " " + s.getName()+";\n\n");
+                f.write("\t\t" + s.getType() + " " + s.getName()+";\n");
             }
+
+            f.write("\n");
 
             for(Command c: comandos){
                 f.write("\t\t"+c.toJava()+"\n");
@@ -61,7 +65,7 @@ public class Program {
             f.write("}\n");
             f.close();
 
-            Identator.Ident(file);
+//            Identator.Ident(file);
         }
         catch(Exception ex){
             System.out.println("ERRO:"+ex.getMessage());

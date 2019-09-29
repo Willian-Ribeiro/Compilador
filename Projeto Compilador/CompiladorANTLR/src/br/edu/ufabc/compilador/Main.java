@@ -9,6 +9,7 @@
 
 package br.edu.ufabc.compilador;
 
+import br.edu.ufabc.compilador.blocks.ScopeManager;
 import br.edu.ufabc.compilador.definitions.AppProps;
 
 import java.io.FileInputStream;
@@ -42,12 +43,12 @@ public class Main {
 
             parser.prog();
 
+            // checking variable usage
+            ScopeManager.getInstance().checkUsedAttributedVariables();
+
             System.out.println("\nGenerating Code...");
             parser.getProgram().saveToFile();
             System.out.println("\nProgram successfully compiled to " + AppProps.LANGUAGE);
-
-            // System note
-            System.out.println("\n\n Only CU is universal!!!\n");
         }
         catch(Exception ex)
         {

@@ -1,5 +1,6 @@
 package br.edu.ufabc.compilador.blocks;
 
+import br.edu.ufabc.compilador.definitions.DataTypes;
 import br.edu.ufabc.compilador.operands.AbstractOperand;
 
 public class Expression{
@@ -16,40 +17,35 @@ public class Expression{
 	   this.root  = root;
 	   this.value = 0.0f;
    }
-   
-   public void eval(){
-       this.value = this.root.getValue();
-   }
 
    public String toString(){
        return "Expression: " + this.value;
    }
 
-    /**
-     * @return the value
-     */
+   public String toJava()
+   {
+       return root.toJava();
+   }
+
     public float getValue() {
         return value;
     }
 
-    /**
-     * @param value the value to set
-     */
     public void setValue(float value) {
         this.value = value;
     }
 
-    /**
-     * @return the root
-     */
     public AbstractOperand getRoot() {
         return root;
     }
 
-    /**
-     * @param root the root to set
-     */
     public void setRoot(AbstractOperand root) {
         this.root = root;
     }
+
+    public DataTypes getDataType()
+    {
+        return root.getDataType();
+    }
+
 }

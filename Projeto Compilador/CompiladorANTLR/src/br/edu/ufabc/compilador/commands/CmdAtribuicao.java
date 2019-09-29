@@ -1,17 +1,27 @@
 package br.edu.ufabc.compilador.commands;
 
 import br.edu.ufabc.compilador.blocks.Expression;
+import br.edu.ufabc.compilador.definitions.DataTypes;
 import br.edu.ufabc.compilador.definitions.Variables;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CmdAtribuicao extends Command {
-    public List<Expression> command;
+    public Expression expression;
     Variables var;
 
     public CmdAtribuicao(Variables var){
         this.var = var;
+        var.setAttributed(true);
+        expression = new Expression();
+    }
+
+    public void setExpression(Expression expression) {
+        this.expression = expression;
+        this.var.setType(getExpressionDataType());
+    }
+
+    public DataTypes getExpressionDataType()
+    {
+        return expression.getDataType();
     }
 
     @Override
@@ -21,15 +31,6 @@ public class CmdAtribuicao extends Command {
 
     @Override
     public String toJava() {
-        return null;
+        return var.getName() + " = " + expression.getRoot().toJava() + ";";
     }
-
-    public List<Expression> getCommand() {
-        return command;
-    }
-
-    public void setCommand(List<Expression> command) {
-        this.command = command;
-    }
-
 }

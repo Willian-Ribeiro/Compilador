@@ -30,7 +30,8 @@ public interface MyParserTokenTypes {
 	int LITERAL_se = 23;
 	int LITERAL_senao = 24;
 	int LITERAL_repita = 25;
-	int T_ac = 26;
-	int T_fc = 27;
-	int T_blank = 28;
+	int LITERAL_enquanto = 26;
+	int T_ac = 27;
+	int T_fc = 28;
+	int T_blank = 29;
 }

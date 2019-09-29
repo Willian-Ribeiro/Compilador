@@ -3,17 +3,13 @@ class MyParser extends Parser;
 {
 	java.util.HashMap<String, Variables> mapaVar;
 
-	java.util.ArrayList<Expression> expList = new java.util.ArrayList<Expression>();
 	Expression expression;
-	AbstractOperand num;
-	AbstractOperand parent;
-	BinaryOperand sumOrSubt;
+	BinaryOperand binaryOperand;
 	BinaryOperand multOrDiv;
-	Variables variables;
-	char op;
-	ListManager listManager = new ListManager();
+	AbstractOperand termoOperand;
+	UnaryOperand fatorOperand;
+	ScopeManager scopeManager = ScopeManager.getInstance();
 	CmdAtribuicao cmdAtribuicao;
-
 	Program p;
 
 	public void setProgram(String name){
@@ -22,8 +18,8 @@ class MyParser extends Parser;
 
     public Variables checkMapaVar(String varName) {
     	// check if var is in any loop
-    	if( !listManager.loopIsEmpty() && (listManager.loopGetVar(varName) != null) )
-    		return listManager.loopGetVar(varName);
+    	if( !scopeManager.loopIsEmpty() && (scopeManager.loopGetVar(varName) != null) )
+    		return scopeManager.loopGetVar(varName);
     	else if( mapaVar.get(varName) != null )
     		return mapaVar.get(varName);
     	return null;
@@ -34,23 +30,22 @@ class MyParser extends Parser;
     }
 }
 
-prog    :   {mapaVar = new java.util.HashMap<String, Variables>();}
+prog    :   {mapaVar = new java.util.HashMap<String, Variables>();scopeManager.setMapaVar(mapaVar);}
 			"programa" declara bloco
 		;
 
 declara :   "declare" 
 			T_Id {
-					if( listManager.loopIsEmpty() )
+					if( scopeManager.loopIsEmpty() )
 						mapaVar.put( LT(0).getText(), new Variables(LT(0).getText()) );
 					else
-						listManager.lastLoop().addLoopVariaveis( new Variables(LT(0).getText()) );
+						scopeManager.lastLoop().addLoopVariaveis( new Variables(LT(0).getText()) );
 				 }
 			(T_virg T_Id {mapaVar.put(LT(0).getText(), new Variables(LT(0).getText()) ); } )*
 			T_pontof
 			{
-				if( listManager.loopIsEmpty() )
+				if( scopeManager.loopIsEmpty() )
 					p.setVariaveis(mapaVar.values());
-			  System.out.println("Variable list assembled...");
 		    }
         ;
 
@@ -59,54 +54,77 @@ bloco	:	( cmd )+ "fimprog"
 
 cmd     : 	cmdLeia 	T_pontof
 		|	cmdEscr		T_pontof
-		|	cmdAttr		T_pontof {System.out.println("Fim Bloco atribuicao");}
+		|	cmdAttr		T_pontof
 		|	cmdIgnore   T_pontof
 		|   cmdIfElse	T_pontof
 		|	cmdLoop     T_pontof
+		|	cmdWhile    T_pontof
 		;
 
 cmdIgnore : T_comt ( T_Id | T_num | T_soma | T_subt | T_mult | T_divi | T_comp
 		  | T_virg | T_ap | T_fp | T_texto | T_attr | "leia" | "escreva" | "se"
-		  | "senao" | "repita" )* // seguido de qualquer coisa
+		  | "senao" | "repita" | "enquanto" )* // seguido de qualquer coisa
 		  ;
 
 cmdLoop	:	"repita" T_ap
 						T_Id {
-								listManager.addLoop(new CmdLoop());
+								scopeManager.addLoop(new CmdLoop());
 								if( mapaVar.get(LT(0).getText()) == null )
 								{
-									listManager.lastLoop().setIterator(new Variables(LT(0).getText()));
+									scopeManager.lastLoop().setIterator(new Variables(LT(0).getText()));
 								}
 								else
-									listManager.lastLoop().setIterator( mapaVar.get(LT(0).getText()) );
+								{
+									if(!checkMapaVar(LT(0).getText()).getAttributed())
+										throw new RuntimeException("ERROR ID " + LT(0).getText() + " variable not attributed");
+									checkMapaVar(LT(0).getText()).setUsed(true);
+									scopeManager.lastLoop().setIterator( mapaVar.get(LT(0).getText()) );
+								}
 							 }
-						T_attr T_num {
-										listManager.lastLoop().getIterator().setValue(LT(0).getText());
-										listManager.lastLoop().getIterator().setType(DataTypes.TYPE_DOUBLE);
-									 } T_pontof
+						(T_attr T_num {
+										scopeManager.lastLoop().getIterator().setUsed(true);
+										scopeManager.lastLoop().getIterator().setAttributed(true);
+										scopeManager.lastLoop().getIterator().setValue(LT(0).getText());
+										scopeManager.lastLoop().getIterator().setType(DataTypes.TYPE_DOUBLE);
+									 })? T_pontof
 
-						(T_num {listManager.lastLoop().setWhile_var1(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
+						(T_num {scopeManager.lastLoop().setWhile_var1(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
 						| T_Id {
 									if(checkMapaVar(LT(0).getText()) != null)
-										listManager.lastLoop().setWhile_var1(checkMapaVar(LT(0).getText()));
+									{
+										if(!checkMapaVar(LT(0).getText()).getAttributed())
+											throw new RuntimeException("ERROR ID " + LT(0).getText() + " variable not attributed");
+										checkMapaVar(LT(0).getText()).setUsed(true);
+										scopeManager.lastLoop().setWhile_var1(checkMapaVar(LT(0).getText()));
+									}
 									else
 										throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
 							   })
 
-						T_comp {listManager.lastLoop().setComparador(LT(0).getText());}
-						(T_num {listManager.lastLoop().setWhile_var2(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
+						T_comp {scopeManager.lastLoop().setComparador(LT(0).getText());}
+						(T_num {scopeManager.lastLoop().setWhile_var2(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
 						| T_Id {
 									if(checkMapaVar(LT(0).getText()) != null)
-										listManager.lastLoop().setWhile_var2( checkMapaVar(LT(0).getText()) );
+									{
+										if(!checkMapaVar(LT(0).getText()).getAttributed())
+											throw new RuntimeException("ERROR ID " + LT(0).getText() + " variable not attributed");
+										checkMapaVar(LT(0).getText()).setUsed(true);
+										scopeManager.lastLoop().setWhile_var2( checkMapaVar(LT(0).getText()) );
+									}
 									else
 										throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
 							   }) T_pontof
 
-						(T_subt | T_soma | T_mult | T_divi) {listManager.lastLoop().setIncrementOp(LT(0).getText());}
-						(T_num {listManager.lastLoop().setIncrement(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
+						(T_subt | T_soma | T_mult | T_divi) {scopeManager.lastLoop().setIncrementOp(LT(0).getText());}
+						(T_num {scopeManager.lastLoop().setIncrement(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
 						| T_Id {
 									if(checkMapaVar(LT(0).getText()) != null)
-										listManager.lastLoop().setIncrement( checkMapaVar(LT(0).getText()) );
+									{
+										if(!checkMapaVar(LT(0).getText()).getAttributed())
+											throw new RuntimeException("ERROR ID " + LT(0).getText() + " variable not attributed");
+										checkMapaVar(LT(0).getText()).setUsed(true);
+										scopeManager.lastLoop().setIncrement( checkMapaVar(LT(0).getText()) );
+									}
 									else
 										throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
 							   })
@@ -116,33 +134,72 @@ cmdLoop	:	"repita" T_ap
 
 						( ( declara )* ( cmdLeia | cmdEscr | cmdAttr | cmdIgnore | cmdLoop ) T_pontof
 							{
-									if(!lastCommand.equals(p.getLastCommand()))
-										listManager.lastLoop().addCommand(p.popCommand());
+								// if command changed, should be placed inside repeat scope
+								if(!lastCommand.equals(p.getLastCommand()))
+									scopeManager.lastLoop().addCommand(p.popCommand());
 							}
 						)*
 					T_fc
 
 			{
-				p.addCommand(listManager.lastLoop());
-				listManager.popLoop();
+				p.addCommand(scopeManager.lastLoop());
+				scopeManager.popLoop();
 			}
 		;
 
-cmdIfElse:  "se" T_ap {listManager.addIf(new CmdIfElse());}
-					(T_num {listManager.lastIfElse().setCondicionail1(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
+cmdWhile:	"enquanto"
+				T_ap {scopeManager.addWhile(new CmdWhile());}
+					expr {
+							scopeManager.lastWhile().addExpression(expression);
+							if(scopeManager.lastWhile().getLastExpression().getRoot() == null)
+								throw new RuntimeException("ERROR while condition not set");
+						 }
+					(
+						T_comp { scopeManager.lastWhile().addComparator(LT(0).getText()); }
+						expr { scopeManager.lastWhile().addExpression(expression); } 
+					)*
+				T_fp 
+				T_ac
+					{Command lastCommand = p.getLastCommand();}
+
+					( ( cmdLeia | cmdEscr | cmdAttr | cmdIgnore ) T_pontof
+						{
+							if(!lastCommand.equals(p.getLastCommand()))
+								scopeManager.lastWhile().addCommand(p.popCommand());
+						}
+					)+
+				T_fc 
+			{
+				p.addCommand(scopeManager.lastWhile());
+				scopeManager.popWhile();
+			}
+		;
+
+cmdIfElse:  "se" T_ap {scopeManager.addIf(new CmdIfElse());}
+					(T_num {scopeManager.lastIfElse().setCondicionail1(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
 					| T_Id {
 								if(checkMapaVar(LT(0).getText()) != null)
-									listManager.lastIfElse().setCondicionail1(checkMapaVar(LT(0).getText()));
+								{
+									if(!checkMapaVar(LT(0).getText()).getAttributed())
+										throw new RuntimeException("ERROR ID " + LT(0).getText() + " variable not attributed");
+									checkMapaVar(LT(0).getText()).setUsed(true);
+									scopeManager.lastIfElse().setCondicionail1(checkMapaVar(LT(0).getText()));
+								}
 								else
 									throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
 						   })
 
-					T_comp {listManager.lastIfElse().setComparador(LT(0).getText());}
+					T_comp {scopeManager.lastIfElse().setComparador(LT(0).getText());}
 
-					(T_num {listManager.lastIfElse().setCondicionail2(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
+					(T_num {scopeManager.lastIfElse().setCondicionail2(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );}
 					| T_Id {
 								if(checkMapaVar(LT(0).getText()) != null)
-									listManager.lastIfElse().setCondicionail2(checkMapaVar(LT(0).getText()));
+								{
+									if(!checkMapaVar(LT(0).getText()).getAttributed())
+										throw new RuntimeException("ERROR ID " + LT(0).getText() + " variable not attributed");
+									checkMapaVar(LT(0).getText()).setUsed(true);
+									scopeManager.lastIfElse().setCondicionail2(checkMapaVar(LT(0).getText()));
+								}
 								else
 									throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
 						   })
@@ -152,8 +209,8 @@ cmdIfElse:  "se" T_ap {listManager.addIf(new CmdIfElse());}
 
 					( ( cmdLeia | cmdEscr | cmdAttr | cmdIgnore ) T_pontof
 						{
-								if(!lastCommandIf.equals(p.getLastCommand()))
-									listManager.lastIfElse().addCommandIf(p.popCommand());
+							if(!lastCommandIf.equals(p.getLastCommand()))
+								scopeManager.lastIfElse().addCommandIf(p.popCommand());
 						}
 					)+
 				T_fc 
@@ -164,117 +221,134 @@ cmdIfElse:  "se" T_ap {listManager.addIf(new CmdIfElse());}
 					( ( cmdLeia | cmdEscr | cmdAttr | cmdIgnore ) T_pontof
 						{
 								if(!lastCommandElse.equals(p.getLastCommand()))
-									listManager.lastIfElse().addCommandElse(p.popCommand());
+									scopeManager.lastIfElse().addCommandElse(p.popCommand());
 						}
 					)+
 				T_fc )?
 			{
-				p.addCommand(listManager.lastIfElse());
-				listManager.popIf();
+				p.addCommand(scopeManager.lastIfElse());
+				scopeManager.popIf();
 			}
 		;
 
-cmdLeia	:	"leia" {System.out.println("Bloco leia");} T_ap
+cmdLeia	:	"leia" T_ap
 			T_Id {
 					if( checkMapaVar(LT(0).getText()) == null )
 						throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
-
+					checkMapaVar(LT(0).getText()).setAttributed(true);
 					p.addCommand(new CmdLeitura(checkMapaVar(LT(0).getText()).getName()));
 				 }
 
 			T_fp
 		;
 
-cmdEscr	: 	"escreva" {System.out.println("Bloco escreva");}
+cmdEscr	: 	"escreva"
 				
 			T_ap ( T_texto { p.addCommand(new CmdEscrita(LT(0).getText())); }
 			| T_Id
 				{
 					if( checkMapaVar(LT(0).getText()) == null )
 						throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
+					if(!checkMapaVar(LT(0).getText()).getAttributed())
+							throw new RuntimeException("ERROR ID " + LT(0).getText() + " variable not attributed");
+						checkMapaVar(LT(0).getText()).setUsed(true);
 					p.addCommand(new CmdEscrita(checkMapaVar(LT(0).getText()).getName()));
 				} )
 			T_fp
 		;
 
-cmdAttr	: 	T_Id { 
+cmdAttr	: 	T_Id {
 					if( checkMapaVar(LT(0).getText()) == null )
 						throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
 					cmdAtribuicao = new CmdAtribuicao(checkMapaVar(LT(0).getText()));
 					p.addCommand(cmdAtribuicao);
 				 }
-			T_attr  {
-						System.out.println("Bloco atribuicao");
-						expList = new java.util.ArrayList<Expression>();
-						cmdAtribuicao.setCommand(expList);
-					} expr
+			T_attr expr 
+				{
+					cmdAtribuicao.setExpression(expression);
+				}
 		;
 
 expr	: {expression = new Expression();} 
            expr_c
           {
-            if (expression.getRoot() == null) expression.setRoot(num);
-            expList.add( expression );
-            expression.eval();
-            System.out.println(expression);
-            System.out.println(expression.getRoot().toXml());
-            expression = null;
+            // if (expression.getRoot() == null)
+            	// expression.setRoot(abstractOperand);
           }
 		;
 
 //        termo ((T_soma  | T_subt) termo)*
 expr_c  : termo
+				{
+					expression.setRoot( termoOperand );
+				}
           ((T_soma  | T_subt){
-          						op = LT(0).getText().charAt(0);
-                                sumOrSubt = new BinaryOperand(op);
-                                sumOrSubt.setLeft(num);
-                                System.out.println("fim set left");
+          						// create new BinaryOperand, make it root, former root on left, new termo on right
+								binaryOperand = new BinaryOperand(LT(0).getText());
+								binaryOperand.setLeft(termoOperand);
+								expression.setRoot( binaryOperand );
                              }
           termo {
-                   if(expression.getRoot() == null)
-                   {
-						System.out.println("root null");
-						sumOrSubt.setRight(num);
-						expression.setRoot(sumOrSubt);
-						parent = sumOrSubt;
-                   }
-                   else
-                   {
-						System.out.println("root not null");
-						sumOrSubt = new BinaryOperand(op);
-						sumOrSubt.setRight(num);
-						BinaryOperand pai = (BinaryOperand)parent;
-						sumOrSubt.setLeft(pai.getRight());
-						pai.setRight(sumOrSubt);
-                   }
+          			binaryOperand.setRight(termoOperand);
                 }
           )*
 		;
 
 		// fator (( T_mult | T_divi ) fator )*
-termo 	:	{System.out.println("termo");} fator (( T_mult | T_divi ) fator )* {System.out.println("fim termo");}
+termo 	:	fator 
+					{
+						// isTermoUnary = true;
+						termoOperand = fatorOperand;
+					}
+			(
+				( T_mult | T_divi )
+					{
+						if(termoOperand.getClass().getSimpleName().equals("UnaryOperand"))
+						{
+							binaryOperand = new BinaryOperand(LT(0).getText());
+							binaryOperand.setLeft(fatorOperand);
+							termoOperand = binaryOperand;
+						}
+						else
+						{
+							// create new BinaryOperand, make rightmost node its left, make it new rightmost node, new termo on right
+							BinaryOperand tempBinary = new BinaryOperand(LT(0).getText());
+							binaryOperand = (BinaryOperand) termoOperand;
+							tempBinary.setLeft(binaryOperand.getRightmostBinaryOp().getRight());
+							termoOperand = tempBinary;
+						}
+					}
+				fator
+					{
+						binaryOperand = (BinaryOperand) termoOperand;
+						binaryOperand.setRight(fatorOperand);
+						termoOperand = binaryOperand;
+					}
+			)*
 		;
 
-		// T_Id | T_num | T_ap expr T_fp
-fator 	: 	{System.out.println("inicio fator");}T_Id { 
+		// (T_soma | T_subt)? (T_Id | T_num | T_texto | T_ap expr T_fp )
+fator 	:	{ fatorOperand = new UnaryOperand(); }
+			(T_soma | T_subt)? {fatorOperand.setOperand(LT(0).getText());}
+			( T_Id {
 					if( checkMapaVar(LT(0).getText()) == null )
 					{
 						throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
 					}
 					else
 					{
-						num = new UnaryOperand( Float.parseFloat( checkMapaVar(LT(0).getText()).getValue() ) );
-						System.out.println("Unary operand (var): " + num.getValue());
+						if(!checkMapaVar(LT(0).getText()).getAttributed())
+							throw new RuntimeException("ERROR ID " + LT(0).getText() + " variable not attributed");
+						checkMapaVar(LT(0).getText()).setUsed(true);
+						fatorOperand.setVar( checkMapaVar(LT(0).getText()) );
 					}
 				 }
 
-		| T_num {
-					System.out.println("setando um fator");
-					num = new UnaryOperand(Float.parseFloat(LT(0).getText()));
-					System.out.println("Unary operand (num): " + num.getValue());
-                }
+			| T_num {
+						fatorOperand.setVar( new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );
+	                }
 
-		| T_ap expr T_fp
+			| T_ap expr T_fp )
 
 		;
 
