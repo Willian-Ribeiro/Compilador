@@ -1,38 +1,61 @@
-# Compilador
-Desenvolvimento de um compilador para a matéria Compiladores
+# Projeto Compilador para .java 
 
-O projeto foi realizado utilizando Intellij Community, portanto use-o também para já rodar o código sem ter que remover os .java e adaptar para outra IDE
+**Membros:**
 
-A entrega do projeto final está maracada para dia 23/08
+- Willian Ribeiro
+- Carlos Alberto
+- Daniel Czeresnia
 
-Dúvidas quanto ao Git Hub, acesse: https://rogerdudler.github.io/git-guide/
+## Breve Descricao
+
+Projeto para o curso de Compiladores, consistindo no Desenvolvimento de um compilador de uma linguagem generica para linguagem Java. Composto de um breve analisador Lexico, *parser* e gerenciador de certos casos de erro, o compilador adere a certos fundamentos de linguagem listados a seguir performando como prototipo para desenvolvimentos futuros.
+
+## Checklist
+
+- [x] possui 2 tipos de variáveis 
+- [x] Possui a estrutura If Else
+- [x] 1a Estrutura de Repetição
+- [x] 2a Estrutura de Repetição
+- [x] Verificar se variável foi atribuída ou não
+- [x] Possui operações de entrada e saída
+- [x] Aceita números decimais
+- [x] Verificar se variável foi declarada
+- [x] Verificar se variável declarada foi ou não usada
+
+## Instalacao e Inicio
+
+###### Requisitos:
+- **Sistema Operacional:** recomenda-se os baseados em Linux.
+- **IDE:** recomenda-se o uso de Intellij IDEA Community edition 2019.2.2.
+
+###### Manual:
+**1.** Instalar sua IDE de preferencia
+**2.** Clonar o repositorio para um endereco de sua preferencia. Abrir o diretorio do projeto com sua IDE.
+**3.** Alterar o arquivo *pEm.cu* no caminho: *Projeto-Compilador\Projeto Compilador\CompiladorANTLR\pEm.cu* com o conteudo desejado a compilar
+**4.** Executar o arquivo .java no caminho: *Projeto-Compilador\Projeto Compilador\CompiladorANTLR\src\br\edu\ufabc\compilador\Main.java*
+**5.** O arquivo compilado de saida estara em: *Carlos Alberto\IdeaProjects\Projeto-Compilador\Projeto Compilador\CompiladorANTLR\ProgramaEm.java
+
+Caso deseje alterar as regras de Gramatica para os analisadores Lexico e Sintatico:
+**1.** Deve-se alterar o arquivo gramatica.g, do qual o ANTLR recebe como input e gera classes javas (Analisadores Lexico e Sintatico) para serem incluidas no projeto do nosso compilador;
+**2.** Sempre que alterar gramatica.g, rode o ANTLR para gerar novas classes .java e copiar os arquivos para as dependencias do projeto;
 
 
-#################################### PARA USAR O MATERIAL QUE ESTA AQUI:
+## Elementos da Linguagem
 
-use uma maquina Linux - facilita a vida pra instalar as coisas
-Use intellij community como IDE - pois eh a que estou usando
+- "*declare*"  palavra reservada, que seguida de IDs declara uma serie de variaveis;
+- "*escreva( ... )*" :palavra seguida de abre paresentes, algum valor de texto e fecha parenteses. Representa a emissao de texto na tela do usuario;
+- "*leia( ...)*": palavra seguida de abre paresentes, algum valor de texto e fecha parenteses. Representa o registro de dados em alguma variavel;
+- "*repita( ...)*": 
+- "*enquanto( ...)*": 
+- "*se( ...)    Senao   ...*": 
+- *Operacoes Aritmeticas basicas:*
 
-Baixou tudo? secesso, nao baixou? give your jumps
-Para usar o programa basta abrir o arquivo da pasta CompiladorANTLR na IDE
+## Sinopse
 
-tente rodar o programa, ele deve funcionar com a ultima versao docompilador, e deve dar build successsful
-indicando que a linguagem de programacao que estamos criando esta sendo compilada
+Algumas classes e funcoes sao importantes para entendimento do projeto, valendo sua citacao. Pontuemos algumas:
 
-#################################### PARA FAZER ALTERACOES
-deve-se alterar o arquivo gramatica.g, pois o ANTLR o recebe como input e gera classes javas (Analisadores Lexico e Sintatico) para serem incluidas no projeto do nosso compilador
+**1.**  **Classe MyLexer:** classe responsavel pelo gerenciamento lexico da compilacao, isto e, a estruturacao do grupo de caracteres de uma entrada em uma forma organizada de *tokens*/palavras;
+**2.**  **Classe MyParser:** classe responsavel pela atribuicao de estruturas gramaticais a um conjunto de tokens/palavras, como or exemplo Leitura e Condicionais;
 
-toda vez que alterar gramatica.g, tem que rodar o ANTLR e gerar novas classes java e copiar os arquivos para o projeto
 
-portanto definamos:
-PROCESSO_CHATO
-{
-  rodar o ANTLR na gramatica.g, gerando novas classes java dos analisadores
-  as classes java para o projeto
-}
-
-para nao encher tanto o saco, criei um BASH script (acho q nao roda em Windows), que faz esse processo todo
-
-Com Intellij, da pra ainda colocar pra executar esse script toda vez antes de executar a aplicacao, nao tendo que ficar se preocupando com o PROCESSO_CHATO
-
-quaisquer duvidas, contatem Carlos Alberto
+## Testes e Exemplos
