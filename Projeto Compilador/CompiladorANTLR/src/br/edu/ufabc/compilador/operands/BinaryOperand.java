@@ -38,7 +38,7 @@ public class BinaryOperand  extends AbstractOperand{
         BinaryOperand binaryOperand = this;
         AbstractOperand rightNode = right;
 
-        while(rightNode.getClass().getSimpleName().equals("BinaryOperand"))
+        while(rightNode!=null && rightNode.getClass().getSimpleName().equals("BinaryOperand"))
         {
             binaryOperand = (BinaryOperand) rightNode;
             rightNode = binaryOperand.right;
@@ -57,9 +57,9 @@ public class BinaryOperand  extends AbstractOperand{
                 throw new RuntimeException("DIVISION BY ZERO!!!");
         }
 
-        result = printLeft();
+        result = left.toJava();
         result += " " + op + " ";
-        result += printRight();
+        result += right.toJava();
 
         return result;
     }
@@ -80,52 +80,6 @@ public class BinaryOperand  extends AbstractOperand{
             return leftDT;
         else
             return rightDT;
-    }
-
-    public String printLeft()
-    {
-        AbstractOperand leftOperand;
-        String result;
-
-        if(left == null)
-            return "";
-
-        if(left.getClass().getSimpleName().equals("UnaryOperand"))
-        {
-            leftOperand = (UnaryOperand) left;
-            result = leftOperand.toJava();
-        }
-        else
-        {
-            System.out.println("tipo cclasse printleft");
-            System.out.println(left.getClass().getSimpleName());
-            leftOperand = (BinaryOperand) left;
-            result = leftOperand.toJava();
-        }
-
-        return result;
-    }
-
-    public String printRight()
-    {
-        AbstractOperand rightOperand;
-        String result;
-
-        if(right == null)
-            return "";
-
-        if(right.getClass().getSimpleName().equals("UnaryOperand"))
-        {
-            rightOperand = (UnaryOperand) right;
-            result = rightOperand.toJava();
-        }
-        else
-        {
-            rightOperand = (BinaryOperand) right;
-            result = rightOperand.toJava();
-        }
-
-        return result;
     }
 
 }

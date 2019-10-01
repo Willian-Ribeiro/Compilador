@@ -46,12 +46,13 @@ public MyLexer(LexerSharedInputState state) {
 	setCaseSensitive(true);
 	literals = new Hashtable();
 	literals.put(new ANTLRHashString("programa", this), new Integer(4));
-	literals.put(new ANTLRHashString("se", this), new Integer(23));
-	literals.put(new ANTLRHashString("senao", this), new Integer(24));
-	literals.put(new ANTLRHashString("escreva", this), new Integer(22));
-	literals.put(new ANTLRHashString("leia", this), new Integer(21));
-	literals.put(new ANTLRHashString("enquanto", this), new Integer(26));
-	literals.put(new ANTLRHashString("repita", this), new Integer(25));
+	literals.put(new ANTLRHashString("se", this), new Integer(24));
+	literals.put(new ANTLRHashString("senao", this), new Integer(25));
+	literals.put(new ANTLRHashString("escreva", this), new Integer(23));
+	literals.put(new ANTLRHashString("enquanto", this), new Integer(27));
+	literals.put(new ANTLRHashString("leiaTxt", this), new Integer(21));
+	literals.put(new ANTLRHashString("repita", this), new Integer(26));
+	literals.put(new ANTLRHashString("leiaNum", this), new Integer(22));
 	literals.put(new ANTLRHashString("declare", this), new Integer(5));
 	literals.put(new ANTLRHashString("fimprog", this), new Integer(9));
 }
@@ -241,7 +242,7 @@ tryAgain:
 		}
 		}
 		{
-		_loop58:
+		_loop60:
 		do {
 			switch ( LA(1)) {
 			case 'a':  case 'b':  case 'c':  case 'd':
@@ -275,7 +276,7 @@ tryAgain:
 			}
 			default:
 			{
-				break _loop58;
+				break _loop60;
 			}
 			}
 		} while (true);
@@ -293,17 +294,17 @@ tryAgain:
 		int _saveIndex;
 		
 		{
-		int _cnt61=0;
-		_loop61:
+		int _cnt63=0;
+		_loop63:
 		do {
 			if (((LA(1) >= '0' && LA(1) <= '9'))) {
 				matchRange('0','9');
 			}
 			else {
-				if ( _cnt61>=1 ) { break _loop61; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
+				if ( _cnt63>=1 ) { break _loop63; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
 			}
 			
-			_cnt61++;
+			_cnt63++;
 		} while (true);
 		}
 		{
@@ -312,17 +313,17 @@ tryAgain:
 			match('.');
 			}
 			{
-			int _cnt65=0;
-			_loop65:
+			int _cnt67=0;
+			_loop67:
 			do {
 				if (((LA(1) >= '0' && LA(1) <= '9'))) {
 					matchRange('0','9');
 				}
 				else {
-					if ( _cnt65>=1 ) { break _loop65; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
+					if ( _cnt67>=1 ) { break _loop67; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
 				}
 				
-				_cnt65++;
+				_cnt67++;
 			} while (true);
 			}
 		}
@@ -474,8 +475,8 @@ tryAgain:
 		
 		match('"');
 		{
-		int _cnt78=0;
-		_loop78:
+		int _cnt80=0;
+		_loop80:
 		do {
 			switch ( LA(1)) {
 			case ' ':
@@ -520,10 +521,10 @@ tryAgain:
 			}
 			default:
 			{
-				if ( _cnt78>=1 ) { break _loop78; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
+				if ( _cnt80>=1 ) { break _loop80; } else {throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());}
 			}
 			}
-			_cnt78++;
+			_cnt80++;
 		} while (true);
 		}
 		match('"');

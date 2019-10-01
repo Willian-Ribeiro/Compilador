@@ -25,13 +25,14 @@ public interface MyParserTokenTypes {
 	int T_fp = 18;
 	int T_texto = 19;
 	int T_attr = 20;
-	int LITERAL_leia = 21;
-	int LITERAL_escreva = 22;
-	int LITERAL_se = 23;
-	int LITERAL_senao = 24;
-	int LITERAL_repita = 25;
-	int LITERAL_enquanto = 26;
-	int T_ac = 27;
-	int T_fc = 28;
-	int T_blank = 29;
+	int LITERAL_leiaTxt = 21;
+	int LITERAL_leiaNum = 22;
+	int LITERAL_escreva = 23;
+	int LITERAL_se = 24;
+	int LITERAL_senao = 25;
+	int LITERAL_repita = 26;
+	int LITERAL_enquanto = 27;
+	int T_ac = 28;
+	int T_fc = 29;
+	int T_blank = 30;
 }

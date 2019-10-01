@@ -47,7 +47,7 @@ public class Program {
             File file = new File("ProgramaEm." + AppProps.getOutputFileExtension());
             FileWriter f = new FileWriter(file);
 
-            f.write("public class "+name+"{\n");
+            f.write("public class Main {\n");
             f.write("\tpublic static void main(String args[]){\n");
             f.write("\t\tjava.util.Scanner "+ AppProps.JAVA_SCANNER_INPUT +" = new java.util.Scanner(System.in);\n");
 

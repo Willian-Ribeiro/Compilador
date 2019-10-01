@@ -1,14 +1,15 @@
 package br.edu.ufabc.compilador.commands;
 
-import br.edu.ufabc.compilador.blocks.Program;
 import br.edu.ufabc.compilador.definitions.AppProps;
+import br.edu.ufabc.compilador.definitions.DataTypes;
+import br.edu.ufabc.compilador.definitions.Variables;
 
 public class CmdLeitura extends Command {
 
-    private String idVar;
+    private Variables var;
 
-    public CmdLeitura(String idVar){
-        this.idVar = idVar;
+    public CmdLeitura(Variables var){
+        this.var = var;
     }
 
     @Override
@@ -18,6 +19,9 @@ public class CmdLeitura extends Command {
 
     @Override
     public String toJava() {
-        return idVar + "=" + AppProps.JAVA_SCANNER_INPUT + ".next();";
+        if(var.getDataType() == DataTypes.TYPE_STRING)
+            return var.getName() + "=" + AppProps.JAVA_SCANNER_INPUT + ".next();";
+        else
+            return var.getName() + "=" + AppProps.JAVA_SCANNER_INPUT + ".nextDouble();";
     }
 }

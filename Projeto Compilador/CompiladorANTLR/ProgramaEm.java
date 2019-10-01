@@ -1,48 +1,69 @@
-public class pEm{
+public class Main {
 	public static void main(String args[]){
 		java.util.Scanner __SCAN_CU_MACRO__ = new java.util.Scanner(System.in);
 		String a;
-		String b;
+		double b;
 		double c;
 		double d;
+		String e;
+		double f;
+		double g;
 
 		System.out.println("Este programa foi feito com o Compilador Universal");
 
-		System.out.println("Digite o valor de a");
+		System.out.println("Digite o texto de a");
 
 		a=__SCAN_CU_MACRO__.next();
+		System.out.println(a);
+
 		System.out.println("Digite o valor de b");
 
-		b=__SCAN_CU_MACRO__.next();
-		System.out.println("c = soma de a + b = ");
+		b=__SCAN_CU_MACRO__.nextDouble();
+		c = 1 + 2 * 3.3 * 8.8 * 9 * 10 * 11.1 * 12 * 13 + +(1);
+		d = 1 - -44 * 3 * 8 * -9 + -(1 * 4 * 3 * 2 + b * +(1 + 2));
+		e = "texto";
+		System.out.println(e);
 
-		c = 1 + 2;
-		System.out.println(c);
+		System.out.println("Numero 5");
 
-		System.out.println("d = 2 * c = ");
+		System.out.println(5);
 
-		d = 2 * c;
-		System.out.println(d);
+		System.out.println("f = soma de 1 + 2 + 3 + 4 ");
 
-		for( double iterador=3; iterador < 10; iterador += 1 ) {
+		f = 1 + 2 + 3 + 4;
+		System.out.println(f);
+
+		System.out.println("g = 2 * f * ( f + b ) = ");
+
+		g = 2 * f * +(f + b);
+		System.out.println(g);
+
+		for( double iterador=1; iterador < 3; iterador += 1 ) {
 			double j;
-			double k;
-			j=__SCAN_CU_MACRO__.next();
-			j = 1 * 8.4;
+			System.out.println("Qual valor de j?");
+
+			j=__SCAN_CU_MACRO__.nextDouble();
+			j = j * 8.4;
+			System.out.println("j = j * 8.5");
+
 			System.out.println(j);
 
-			System.out.println("isto eh um loop");
+			System.out.println("isto eh um loop, repetindo");
 
-			k=__SCAN_CU_MACRO__.next();
-			k = 1 + -2;
-			System.out.println(k);
+			System.out.println(iterador);
 
-			for( double iteradorNovo=5; iteradorNovo < 8; iteradorNovo += 1 ) {
-			String f;
-			f=__SCAN_CU_MACRO__.next();
+			System.out.println("vezes");
+
+			for( double iteradorNovo=5; iteradorNovo < 7; iteradorNovo += 1 ) {
+			double l;
+			System.out.println("Qual valor de l?");
+
+			l=__SCAN_CU_MACRO__.nextDouble();
 			System.out.println("isto eh um loop aninhado");
 
-			System.out.println(f);
+			System.out.println("l vale ");
+
+			System.out.println(l);
 
 		}
 
@@ -50,12 +71,24 @@ public class pEm{
 
 		System.out.println("fim dos loops");
 
-		if( a<b ) {
+		System.out.println("se c de valor");
+
+		System.out.println(c);
+
+		System.out.println("maior que b de valor ");
+
+		System.out.println(b);
+
+		System.out.println("execute if");
+
+		if( c>b ) {
 			System.out.println("isto eh um if");
 
 		}
 
-		if( 2<3 ) {
+		System.out.println("se 2>3 execute if");
+
+		if( 2>3 ) {
 			System.out.println("isto eh um if");
 
 		}
@@ -64,11 +97,15 @@ public class pEm{
 
 		}
 
-		while( d<2 ) {
-			System.out.println("Isto eh um laco while");
+		System.out.println("Isto eh um laco while");
 
-			c = c + 1;
+		while( d<10 ) {
+			System.out.println("Repetindo enquanto d < 10");
+
+			d=__SCAN_CU_MACRO__.nextDouble();
 		}
+
+		System.out.println("fim do programa");
 
 	}
 }

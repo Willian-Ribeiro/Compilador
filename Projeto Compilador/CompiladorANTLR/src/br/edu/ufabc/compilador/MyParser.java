@@ -29,6 +29,7 @@ public class MyParser extends antlr.LLkParser       implements MyParserTokenType
 	BinaryOperand multOrDiv;
 	AbstractOperand termoOperand;
 	UnaryOperand fatorOperand;
+	UnaryOperand lastFator;
 	ScopeManager scopeManager = ScopeManager.getInstance();
 	CmdAtribuicao cmdAtribuicao;
 	Program p;
@@ -157,7 +158,8 @@ public MyParser(ParserSharedInputState state) {
 		
 		try {      // for error handling
 			switch ( LA(1)) {
-			case LITERAL_leia:
+			case LITERAL_leiaTxt:
+			case LITERAL_leiaNum:
 			{
 				cmdLeia();
 				match(T_pontof);
@@ -215,16 +217,45 @@ public MyParser(ParserSharedInputState state) {
 		
 		
 		try {      // for error handling
-			match(LITERAL_leia);
-			match(T_ap);
-			match(T_Id);
-			
-								if( checkMapaVar(LT(0).getText()) == null )
-									throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
-								checkMapaVar(LT(0).getText()).setAttributed(true);
-								p.addCommand(new CmdLeitura(checkMapaVar(LT(0).getText()).getName()));
-							
-			match(T_fp);
+			switch ( LA(1)) {
+			case LITERAL_leiaTxt:
+			{
+				{
+				match(LITERAL_leiaTxt);
+				match(T_ap);
+				match(T_Id);
+				
+									if( checkMapaVar(LT(0).getText()) == null )
+										throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
+									checkMapaVar(LT(0).getText()).setAttributed(true);
+									p.addCommand(new CmdLeitura(checkMapaVar(LT(0).getText())));
+								
+				match(T_fp);
+				}
+				break;
+			}
+			case LITERAL_leiaNum:
+			{
+				{
+				match(LITERAL_leiaNum);
+				match(T_ap);
+				match(T_Id);
+				
+									if( checkMapaVar(LT(0).getText()) == null )
+										throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
+									checkMapaVar(LT(0).getText()).setAttributed(true);
+									checkMapaVar(LT(0).getText()).setType(DataTypes.TYPE_DOUBLE);
+									p.addCommand(new CmdLeitura(checkMapaVar(LT(0).getText())));
+								
+				match(T_fp);
+				}
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
 		}
 		catch (RecognitionException ex) {
 			reportError(ex);
@@ -246,17 +277,23 @@ public MyParser(ParserSharedInputState state) {
 				p.addCommand(new CmdEscrita(LT(0).getText()));
 				break;
 			}
+			case T_num:
+			{
+				match(T_num);
+				p.addCommand(new CmdEscrita(LT(0).getText()));
+				break;
+			}
 			case T_Id:
 			{
 				match(T_Id);
 				
-									if( checkMapaVar(LT(0).getText()) == null )
-										throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
-									if(!checkMapaVar(LT(0).getText()).getAttributed())
-											throw new RuntimeException("ERROR ID " + LT(0).getText() + " variable not attributed");
-										checkMapaVar(LT(0).getText()).setUsed(true);
-									p.addCommand(new CmdEscrita(checkMapaVar(LT(0).getText()).getName()));
-								
+										if( checkMapaVar(LT(0).getText()) == null )
+											throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
+										if(!checkMapaVar(LT(0).getText()).getAttributed())
+												throw new RuntimeException("ERROR ID " + LT(0).getText() + " variable not attributed");
+											checkMapaVar(LT(0).getText()).setUsed(true);
+										p.addCommand(new CmdEscrita(checkMapaVar(LT(0).getText()).getName()));
+									
 				break;
 			}
 			default:
@@ -365,9 +402,14 @@ public MyParser(ParserSharedInputState state) {
 					match(T_attr);
 					break;
 				}
-				case LITERAL_leia:
+				case LITERAL_leiaTxt:
 				{
-					match(LITERAL_leia);
+					match(LITERAL_leiaTxt);
+					break;
+				}
+				case LITERAL_leiaNum:
+				{
+					match(LITERAL_leiaNum);
 					break;
 				}
 				case LITERAL_escreva:
@@ -488,7 +530,8 @@ public MyParser(ParserSharedInputState state) {
 				if ((_tokenSet_5.member(LA(1)))) {
 					{
 					switch ( LA(1)) {
-					case LITERAL_leia:
+					case LITERAL_leiaTxt:
+					case LITERAL_leiaNum:
 					{
 						cmdLeia();
 						break;
@@ -542,7 +585,8 @@ public MyParser(ParserSharedInputState state) {
 					if ((_tokenSet_5.member(LA(1)))) {
 						{
 						switch ( LA(1)) {
-						case LITERAL_leia:
+						case LITERAL_leiaTxt:
+						case LITERAL_leiaNum:
 						{
 							cmdLeia();
 							break;
@@ -794,7 +838,8 @@ public MyParser(ParserSharedInputState state) {
 					}
 					{
 					switch ( LA(1)) {
-					case LITERAL_leia:
+					case LITERAL_leiaTxt:
+					case LITERAL_leiaNum:
 					{
 						cmdLeia();
 						break;
@@ -888,7 +933,8 @@ public MyParser(ParserSharedInputState state) {
 				if ((_tokenSet_5.member(LA(1)))) {
 					{
 					switch ( LA(1)) {
-					case LITERAL_leia:
+					case LITERAL_leiaTxt:
+					case LITERAL_leiaNum:
 					{
 						cmdLeia();
 						break;
@@ -944,28 +990,12 @@ public MyParser(ParserSharedInputState state) {
 		
 		try {      // for error handling
 			expression = new Expression();
-			expr_c();
-			
-			// if (expression.getRoot() == null)
-				// expression.setRoot(abstractOperand);
-			
-		}
-		catch (RecognitionException ex) {
-			reportError(ex);
-			recover(ex,_tokenSet_7);
-		}
-	}
-	
-	public final void expr_c() throws RecognitionException, TokenStreamException {
-		
-		
-		try {      // for error handling
 			termo();
 			
 								expression.setRoot( termoOperand );
 							
 			{
-			_loop47:
+			_loop48:
 			do {
 				if ((LA(1)==T_soma||LA(1)==T_subt)) {
 					{
@@ -988,17 +1018,19 @@ public MyParser(ParserSharedInputState state) {
 					}
 					
 											// create new BinaryOperand, make it root, former root on left, new termo on right
-													binaryOperand = new BinaryOperand(LT(0).getText());
-													binaryOperand.setLeft(termoOperand);
-													expression.setRoot( binaryOperand );
+													BinaryOperand exprBinaryOp = new BinaryOperand(LT(0).getText());
+													exprBinaryOp.setLeft(expression.getRoot());
+													expression.setRoot( exprBinaryOp );
 					
 					termo();
 					
-								binaryOperand.setRight(termoOperand);
+								// exprBinaryOp.setRight(termoOperand);
+								exprBinaryOp = (BinaryOperand) expression.getRoot();
+								exprBinaryOp.setRight(termoOperand);
 					
 				}
 				else {
-					break _loop47;
+					break _loop48;
 				}
 				
 			} while (true);
@@ -1016,11 +1048,10 @@ public MyParser(ParserSharedInputState state) {
 		try {      // for error handling
 			fator();
 			
-									// isTermoUnary = true;
 									termoOperand = fatorOperand;
 								
 			{
-			_loop51:
+			_loop52:
 			do {
 				if ((LA(1)==T_mult||LA(1)==T_divi)) {
 					{
@@ -1054,18 +1085,17 @@ public MyParser(ParserSharedInputState state) {
 												BinaryOperand tempBinary = new BinaryOperand(LT(0).getText());
 												binaryOperand = (BinaryOperand) termoOperand;
 												tempBinary.setLeft(binaryOperand.getRightmostBinaryOp().getRight());
-												termoOperand = tempBinary;
+												binaryOperand.getRightmostBinaryOp().setRight(tempBinary);
 											}
 										
 					fator();
 					
 											binaryOperand = (BinaryOperand) termoOperand;
-											binaryOperand.setRight(fatorOperand);
-											termoOperand = binaryOperand;
+											binaryOperand.getRightmostBinaryOp().setRight(fatorOperand);
 										
 				}
 				else {
-					break _loop51;
+					break _loop52;
 				}
 				
 			} while (true);
@@ -1085,18 +1115,33 @@ public MyParser(ParserSharedInputState state) {
 			{
 			switch ( LA(1)) {
 			case T_soma:
-			{
-				match(T_soma);
-				break;
-			}
 			case T_subt:
 			{
-				match(T_subt);
+				{
+				switch ( LA(1)) {
+				case T_soma:
+				{
+					match(T_soma);
+					break;
+				}
+				case T_subt:
+				{
+					match(T_subt);
+					break;
+				}
+				default:
+				{
+					throw new NoViableAltException(LT(1), getFilename());
+				}
+				}
+				}
+				fatorOperand.setOperand(LT(0).getText());
 				break;
 			}
 			case T_Id:
 			case T_num:
 			case T_ap:
+			case T_texto:
 			{
 				break;
 			}
@@ -1106,7 +1151,6 @@ public MyParser(ParserSharedInputState state) {
 			}
 			}
 			}
-			fatorOperand.setOperand(LT(0).getText());
 			{
 			switch ( LA(1)) {
 			case T_Id:
@@ -1135,10 +1179,33 @@ public MyParser(ParserSharedInputState state) {
 					
 				break;
 			}
+			case T_texto:
+			{
+				match(T_texto);
+				
+					        	fatorOperand.setVar(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_STRING));
+					
+				break;
+			}
 			case T_ap:
 			{
 				match(T_ap);
+				
+									// save state and initialize expression
+									fatorOperand.saveState(expression, termoOperand, binaryOperand, fatorOperand, lastFator);
+									lastFator = fatorOperand;
+								
 				expr();
+				
+									// load state from previous expression
+									fatorOperand = lastFator;
+									fatorOperand.setInsideParenthesis(expression);
+									expression = fatorOperand.getSavedExpression();
+									termoOperand = fatorOperand.getSavedAbstractOperand();
+									binaryOperand = fatorOperand.getSavedBinaryOperand();
+									fatorOperand = fatorOperand.getSavedUnaryOperand();
+									lastFator = fatorOperand.getLastFator();
+								
 				match(T_fp);
 				break;
 			}
@@ -1178,7 +1245,8 @@ public MyParser(ParserSharedInputState state) {
 		"T_fp",
 		"T_texto",
 		"T_attr",
-		"\"leia\"",
+		"\"leiaTxt\"",
+		"\"leiaNum\"",
 		"\"escreva\"",
 		"\"se\"",
 		"\"senao\"",
@@ -1195,17 +1263,17 @@ public MyParser(ParserSharedInputState state) {
 	}
 	public static final BitSet _tokenSet_0 = new BitSet(mk_tokenSet_0());
 	private static final long[] mk_tokenSet_1() {
-		long[] data = { 115344480L, 0L};
+		long[] data = { 232784992L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_1 = new BitSet(mk_tokenSet_1());
 	private static final long[] mk_tokenSet_2() {
-		long[] data = { 115344448L, 0L};
+		long[] data = { 232784960L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_2 = new BitSet(mk_tokenSet_2());
 	private static final long[] mk_tokenSet_3() {
-		long[] data = { 115344960L, 0L};
+		long[] data = { 232785472L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_3 = new BitSet(mk_tokenSet_3());
@@ -1215,12 +1283,12 @@ public MyParser(ParserSharedInputState state) {
 	}
 	public static final BitSet _tokenSet_4 = new BitSet(mk_tokenSet_4());
 	private static final long[] mk_tokenSet_5() {
-		long[] data = { 6292544L, 0L};
+		long[] data = { 14681152L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_5 = new BitSet(mk_tokenSet_5());
 	private static final long[] mk_tokenSet_6() {
-		long[] data = { 39847008L, 0L};
+		long[] data = { 81790048L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_6 = new BitSet(mk_tokenSet_6());

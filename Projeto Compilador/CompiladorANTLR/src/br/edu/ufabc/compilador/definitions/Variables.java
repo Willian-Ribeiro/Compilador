@@ -69,10 +69,6 @@ public class Variables {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Boolean getAttributed() {
         return attributed;
     }
@@ -89,5 +85,4 @@ public class Variables {
         this.used = used;
     }
 
-    public Variables getCopy() { return new Variables(this.name, this.value, this.type); }
 }

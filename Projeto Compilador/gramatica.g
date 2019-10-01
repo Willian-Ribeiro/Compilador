@@ -8,6 +8,7 @@ class MyParser extends Parser;
 	BinaryOperand multOrDiv;
 	AbstractOperand termoOperand;
 	UnaryOperand fatorOperand;
+	UnaryOperand lastFator;
 	ScopeManager scopeManager = ScopeManager.getInstance();
 	CmdAtribuicao cmdAtribuicao;
 	Program p;
@@ -62,7 +63,7 @@ cmd     : 	cmdLeia 	T_pontof
 		;
 
 cmdIgnore : T_comt ( T_Id | T_num | T_soma | T_subt | T_mult | T_divi | T_comp
-		  | T_virg | T_ap | T_fp | T_texto | T_attr | "leia" | "escreva" | "se"
+		  | T_virg | T_ap | T_fp | T_texto | T_attr | "leiaTxt" | "leiaNum" | "escreva" | "se"
 		  | "senao" | "repita" | "enquanto" )* // seguido de qualquer coisa
 		  ;
 
@@ -231,29 +232,43 @@ cmdIfElse:  "se" T_ap {scopeManager.addIf(new CmdIfElse());}
 			}
 		;
 
-cmdLeia	:	"leia" T_ap
+cmdLeia	:	("leiaTxt" T_ap
 			T_Id {
 					if( checkMapaVar(LT(0).getText()) == null )
 						throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
 					checkMapaVar(LT(0).getText()).setAttributed(true);
-					p.addCommand(new CmdLeitura(checkMapaVar(LT(0).getText()).getName()));
+					p.addCommand(new CmdLeitura(checkMapaVar(LT(0).getText())));
 				 }
 
-			T_fp
+			T_fp )
+			|("leiaNum" T_ap
+			T_Id {
+					if( checkMapaVar(LT(0).getText()) == null )
+						throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
+					checkMapaVar(LT(0).getText()).setAttributed(true);
+					checkMapaVar(LT(0).getText()).setType(DataTypes.TYPE_DOUBLE);
+					p.addCommand(new CmdLeitura(checkMapaVar(LT(0).getText())));
+				 }
+
+			T_fp )
 		;
 
 cmdEscr	: 	"escreva"
 				
-			T_ap ( T_texto { p.addCommand(new CmdEscrita(LT(0).getText())); }
-			| T_Id
-				{
-					if( checkMapaVar(LT(0).getText()) == null )
-						throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
-					if(!checkMapaVar(LT(0).getText()).getAttributed())
-							throw new RuntimeException("ERROR ID " + LT(0).getText() + " variable not attributed");
-						checkMapaVar(LT(0).getText()).setUsed(true);
-					p.addCommand(new CmdEscrita(checkMapaVar(LT(0).getText()).getName()));
-				} )
+			T_ap 
+			( 
+				T_texto { p.addCommand(new CmdEscrita(LT(0).getText())); }
+				| T_num { p.addCommand(new CmdEscrita(LT(0).getText())); }
+				| T_Id
+					{
+						if( checkMapaVar(LT(0).getText()) == null )
+							throw new RuntimeException("ERROR ID " + LT(0).getText() + " not declared");
+						if(!checkMapaVar(LT(0).getText()).getAttributed())
+								throw new RuntimeException("ERROR ID " + LT(0).getText() + " variable not attributed");
+							checkMapaVar(LT(0).getText()).setUsed(true);
+						p.addCommand(new CmdEscrita(checkMapaVar(LT(0).getText()).getName()));
+					}
+			)
 			T_fp
 		;
 
@@ -269,35 +284,29 @@ cmdAttr	: 	T_Id {
 				}
 		;
 
-expr	: {expression = new Expression();} 
-           expr_c
-          {
-            // if (expression.getRoot() == null)
-            	// expression.setRoot(abstractOperand);
-          }
-		;
-
-//        termo ((T_soma  | T_subt) termo)*
-expr_c  : termo
+//        	termo ((T_soma  | T_subt) termo)*
+expr  	:	{expression = new Expression();}
+			termo
 				{
 					expression.setRoot( termoOperand );
 				}
-          ((T_soma  | T_subt){
+          	((T_soma  | T_subt){
           						// create new BinaryOperand, make it root, former root on left, new termo on right
-								binaryOperand = new BinaryOperand(LT(0).getText());
-								binaryOperand.setLeft(termoOperand);
-								expression.setRoot( binaryOperand );
+								BinaryOperand exprBinaryOp = new BinaryOperand(LT(0).getText());
+								exprBinaryOp.setLeft(expression.getRoot());
+								expression.setRoot( exprBinaryOp );
                              }
-          termo {
-          			binaryOperand.setRight(termoOperand);
+          	termo {
+          			// exprBinaryOp.setRight(termoOperand);
+          			exprBinaryOp = (BinaryOperand) expression.getRoot();
+          			exprBinaryOp.setRight(termoOperand);
                 }
-          )*
+          	)*
 		;
 
 		// fator (( T_mult | T_divi ) fator )*
 termo 	:	fator 
 					{
-						// isTermoUnary = true;
 						termoOperand = fatorOperand;
 					}
 			(
@@ -315,21 +324,20 @@ termo 	:	fator
 							BinaryOperand tempBinary = new BinaryOperand(LT(0).getText());
 							binaryOperand = (BinaryOperand) termoOperand;
 							tempBinary.setLeft(binaryOperand.getRightmostBinaryOp().getRight());
-							termoOperand = tempBinary;
+							binaryOperand.getRightmostBinaryOp().setRight(tempBinary);
 						}
 					}
 				fator
 					{
 						binaryOperand = (BinaryOperand) termoOperand;
-						binaryOperand.setRight(fatorOperand);
-						termoOperand = binaryOperand;
+						binaryOperand.getRightmostBinaryOp().setRight(fatorOperand);
 					}
 			)*
 		;
 
 		// (T_soma | T_subt)? (T_Id | T_num | T_texto | T_ap expr T_fp )
 fator 	:	{ fatorOperand = new UnaryOperand(); }
-			(T_soma | T_subt)? {fatorOperand.setOperand(LT(0).getText());}
+			((T_soma | T_subt) {fatorOperand.setOperand(LT(0).getText());})?
 			( T_Id {
 					if( checkMapaVar(LT(0).getText()) == null )
 					{
@@ -348,7 +356,29 @@ fator 	:	{ fatorOperand = new UnaryOperand(); }
 						fatorOperand.setVar( new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_DOUBLE) );
 	                }
 
-			| T_ap expr T_fp )
+	        | T_texto
+	        {
+	        	fatorOperand.setVar(new Variables(Variables.NUMBER, LT(0).getText(), DataTypes.TYPE_STRING));
+	        }
+
+			| T_ap
+				{
+					// save state and initialize expression
+					fatorOperand.saveState(expression, termoOperand, binaryOperand, fatorOperand, lastFator);
+					lastFator = fatorOperand;
+				}
+				expr 
+				{
+					// load state from previous expression
+					fatorOperand = lastFator;
+					fatorOperand.setInsideParenthesis(expression);
+					expression = fatorOperand.getSavedExpression();
+					termoOperand = fatorOperand.getSavedAbstractOperand();
+					binaryOperand = fatorOperand.getSavedBinaryOperand();
+					fatorOperand = fatorOperand.getSavedUnaryOperand();
+					lastFator = fatorOperand.getLastFator();
+				}
+			T_fp )
 
 		;
 
