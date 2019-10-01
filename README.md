@@ -39,12 +39,23 @@ Caso deseje alterar as regras de Gramatica para os analisadores Lexico e Sintati
 **1.** Deve-se alterar o arquivo gramatica.g, do qual o ANTLR recebe como input e gera classes javas (Analisadores Lexico e Sintatico) para serem incluidas no projeto do nosso compilador;
 **2.** Sempre que alterar gramatica.g, rode o ANTLR para gerar novas classes .java e copiar os arquivos para as dependencias do projeto;
 
+
+## Elementos da Linguagem
+
+- "*declare*"  palavra reservada, que seguida de IDs declara uma serie de variaveis;
+- "*escreva( ... )*" :palavra seguida de abre paresentes, algum valor de texto e fecha parenteses. Representa a emissao de texto na tela do usuario;
+- "*leia( ...)*": palavra seguida de abre paresentes, algum valor de texto e fecha parenteses. Representa o registro de dados em alguma variavel;
+- "*repita( ...)*": 
+- "*enquanto( ...)*": 
+- "*se( ...)    Senao   ...*": 
+- *Operacoes Aritmeticas basicas:*
+
 ## Sinopse
 
 Algumas classes e funcoes sao importantes para entendimento do projeto, valendo sua citacao. Pontuemos algumas:
-**1.**  **Classe MyLexer:**
 
+**1.**  **Classe MyLexer:** classe responsavel pelo gerenciamento lexico da compilacao, isto e, a estruturacao do grupo de caracteres de uma entrada em uma forma organizada de *tokens*/palavras;
+**2.**  **Classe MyParser:** classe responsavel pela atribuicao de estruturas gramaticais a um conjunto de tokens/palavras, como or exemplo Leitura e Condicionais;
 
 
 ## Testes e Exemplos
-
