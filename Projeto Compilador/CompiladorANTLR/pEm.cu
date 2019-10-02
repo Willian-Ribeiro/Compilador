@@ -1,5 +1,5 @@
 programa
-    declare a,b,c,d,e,f,g;
+    declare a,b,c,d,e,f,g, count;
     escreva("Este programa foi feito com o Compilador Universal");
 
     escreva("Digite o texto de a");
@@ -10,9 +10,13 @@ programa
     escreva("Digite o valor de b");
     leiaNum( b );
 
-    c = 1 + 2 * 3.3 * 8.8 * 9 * 10 * 11.1 * 12 * 13 + (1);
+    c = 1 + 2 * 3.3 * 8.8 * 9 * 10 * 11.1 * 12 * 13 / 100000 + -(1);
+    escreva("Valor de c");
+    escreva(c);
 
     d = 1 - -44 * 3 * 8 * -9  + -( 1 * 4 * 3 * 2 + b * (1 + 2));
+    escreva("Valor de d");
+    escreva(d);
 
     e = "texto";
 
@@ -80,11 +84,13 @@ programa
         escreva("isto eh um else");
     };
 
+    count = 0;
+
     // while;
     escreva("Isto eh um laco while");
-    enquanto( d < 10 ){
+    enquanto( count < 10 ){
         escreva("Repetindo enquanto d < 10");
-        leiaNum( d );
+        leiaNum( count );
     };
 
     escreva("fim do programa");

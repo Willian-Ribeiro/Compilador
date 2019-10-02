@@ -4,19 +4,7 @@
     <list default="true" id="d31a1133-838d-49a6-bd3c-15c4b240535c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProgramaEm.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProgramaEm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyLexer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyParserTokenTypes.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CompiladorANTLR/br/edu/ufabc/compilador/MyParserTokenTypes.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pEm.cu" beforeDir="false" afterPath="$PROJECT_DIR$/pEm.cu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyLexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyParserTokenTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/MyParserTokenTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/blocks/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/blocks/Program.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/commands/CmdLeitura.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/commands/CmdLeitura.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/definitions/Variables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/definitions/Variables.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/operands/BinaryOperand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/operands/BinaryOperand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/operands/UnaryOperand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/edu/ufabc/compilador/operands/UnaryOperand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gramatica.g" beforeDir="false" afterPath="$PROJECT_DIR$/../gramatica.g" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

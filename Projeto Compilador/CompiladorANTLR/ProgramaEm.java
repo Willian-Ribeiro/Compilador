@@ -8,6 +8,7 @@ public class Main {
 		String e;
 		double f;
 		double g;
+		double count;
 
 		System.out.println("Este programa foi feito com o Compilador Universal");
 
@@ -19,8 +20,16 @@ public class Main {
 		System.out.println("Digite o valor de b");
 
 		b=__SCAN_CU_MACRO__.nextDouble();
-		c = 1 + 2 * 3.3 * 8.8 * 9 * 10 * 11.1 * 12 * 13 + +(1);
+		c = 1 + 2 * 3.3 * 8.8 * 9 * 10 * 11.1 * 12 * 13 / 100000 + -(1);
+		System.out.println("Valor de c");
+
+		System.out.println(c);
+
 		d = 1 - -44 * 3 * 8 * -9 + -(1 * 4 * 3 * 2 + b * +(1 + 2));
+		System.out.println("Valor de d");
+
+		System.out.println(d);
+
 		e = "texto";
 		System.out.println(e);
 
@@ -97,12 +106,13 @@ public class Main {
 
 		}
 
+		count = 0;
 		System.out.println("Isto eh um laco while");
 
-		while( d<10 ) {
+		while( count<10 ) {
 			System.out.println("Repetindo enquanto d < 10");
 
-			d=__SCAN_CU_MACRO__.nextDouble();
+			count=__SCAN_CU_MACRO__.nextDouble();
 		}
 
 		System.out.println("fim do programa");
